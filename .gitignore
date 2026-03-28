@@ -1,3 +1,5 @@
 whisper-hotkey.zip
 rm_icon_cache.ps1
 make_ico.py
+dist/
+__pycache__/
