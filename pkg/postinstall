@@ -90,6 +90,9 @@ if [ -f "$INSTALL_DIR/icons/whisper.png" ]; then
     rm -rf "$ICONSET_DIR"
 fi
 
+# Fix ownership so the launcher can embed python3 at runtime
+chown -R "$REAL_USER" "$APP_DIR"
+
 # Code sign (ad-hoc)
 codesign --force --deep --sign - "$APP_DIR" 2>/dev/null || true
 

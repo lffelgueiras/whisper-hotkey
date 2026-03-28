@@ -153,9 +153,15 @@ APP_CONTENTS="$APP_DIR/Contents"
 mkdir -p "$APP_CONTENTS/MacOS"
 mkdir -p "$APP_CONTENTS/Resources"
 
-# Copy launcher script
+# Copy launcher script (it embeds python3 into the bundle on first run)
 cp "$SCRIPT_DIR/launcher.sh" "$APP_CONTENTS/MacOS/Whisper Hotkey"
 chmod +x "$APP_CONTENTS/MacOS/Whisper Hotkey"
+
+# Pre-embed python3 binary into the .app bundle so macOS grants
+# permissions to "Whisper Hotkey" instead of generic "python3"
+REAL_PY="$("$PYTHON" -c "import os,sys; print(os.path.realpath(sys.executable))")"
+cp "$REAL_PY" "$APP_CONTENTS/MacOS/python3"
+chmod +x "$APP_CONTENTS/MacOS/python3"
 
 # Copy Info.plist
 cat > "$APP_CONTENTS/Info.plist" << 'PLIST'
