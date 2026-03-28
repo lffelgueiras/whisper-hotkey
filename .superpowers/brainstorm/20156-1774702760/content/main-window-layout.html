@@ -1,0 +1,82 @@
+<h2>Layout da janela principal</h2>
+<p class="subtitle">Quanto conteudo e informacao voce quer na tela inicial?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:20px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;font-family:-apple-system,sans-serif;color:#fff;width:260px;margin:0 auto">
+        <div style="text-align:center;padding:12px 0">
+          <div style="font-size:22px;font-weight:300;letter-spacing:-0.3px">Ready</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px;font-family:Menlo,monospace">ctrl+space</div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">History</div>
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">Settings</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Compacta</h3>
+      <p>Apenas status + hotkey + botoes. Janela pequena, discreta. Abre e fecha rapido.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:20px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;font-family:-apple-system,sans-serif;color:#fff;width:300px;margin:0 auto">
+        <div style="text-align:center;padding:8px 0 12px">
+          <div style="font-size:20px;font-weight:300">Whisper Hotkey</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px">Qwen3-ASR · ctrl+space</div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;margin:8px 0 4px">Last transcription</div>
+        <div style="padding:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;font-size:12px;color:rgba(255,255,255,0.5);line-height:1.4">
+          "Ola, meu nome e Luis Felipe e eu trabalho na MXM Sistemas."
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:12px 0 8px"></div>
+        <div style="display:flex;gap:6px">
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">History</div>
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">Settings</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Informativa</h3>
+      <p>Status + modelo + hotkey + ultima transcricao. Mostra contexto util sem precisar abrir o History.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:20px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px;font-family:-apple-system,sans-serif;color:#fff;width:320px;margin:0 auto">
+        <div style="text-align:center;padding:8px 0 12px">
+          <div style="font-size:20px;font-weight:300">Whisper Hotkey</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.3);margin-top:4px">Qwen3-ASR · Post-process ON</div>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:8px 0"></div>
+        <div style="font-size:10px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;margin:8px 0 4px">Recent</div>
+        <div style="padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:4px;display:flex;justify-content:space-between">
+          <span>"Ola, meu nome e Luis..."</span><span style="color:rgba(255,255,255,0.2)">2m</span>
+        </div>
+        <div style="padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:4px;display:flex;justify-content:space-between">
+          <span>"Preciso revisar o relat..."</span><span style="color:rgba(255,255,255,0.2)">15m</span>
+        </div>
+        <div style="padding:8px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:8px;font-size:11px;color:rgba(255,255,255,0.45);display:flex;justify-content:space-between">
+          <span>"A reuniao com o cliente..."</span><span style="color:rgba(255,255,255,0.2)">1h</span>
+        </div>
+        <div style="height:1px;background:rgba(255,255,255,0.06);margin:12px 0 8px"></div>
+        <div style="display:flex;gap:6px">
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">All History</div>
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;font-size:11px;color:rgba(255,255,255,0.4)">Settings</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Dashboard</h3>
+      <p>Status + ultimas 3 transcricoes inline + info do modelo. Funciona como mini-hub sem precisar de janelas extras.</p>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,105 @@
+<h2>Layout do Settings</h2>
+<p class="subtitle">Como organizar as configuracoes?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;font-family:-apple-system,sans-serif;color:#fff;width:320px;margin:0 auto;font-size:11px">
+        <div style="text-align:center;font-size:16px;font-weight:300;margin-bottom:12px">Settings</div>
+
+        <div style="font-size:9px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;margin:8px 0 4px">Model</div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:rgba(255,255,255,0.5)">Engine</span><span style="color:rgba(255,255,255,0.7)">Qwen3-ASR</span></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Model</span><span style="color:rgba(255,255,255,0.7)">0.6B</span></div>
+        </div>
+
+        <div style="font-size:9px;color:rgba(255,255,255,0.25);text-transform:uppercase;letter-spacing:0.08em;margin:12px 0 4px">Behavior</div>
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:rgba(255,255,255,0.5)">Hotkey</span><span style="color:rgba(255,255,255,0.7)">ctrl+space</span></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Auto-paste</span><div style="width:28px;height:16px;background:#34c759;border-radius:8px"></div></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Post-process</span><div style="width:28px;height:16px;background:#34c759;border-radius:8px"></div></div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;color:rgba(255,255,255,0.4)">Cancel</div>
+          <div style="flex:1;padding:8px;background:rgba(10,132,255,0.8);border-radius:8px;text-align:center;color:#fff">Save</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Lista Unica com Cards</h3>
+      <p>Tudo numa lista vertical com secoes agrupadas em cards. Estilo iOS Settings. Scroll unico, simples.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;font-family:-apple-system,sans-serif;color:#fff;width:340px;margin:0 auto;font-size:11px;display:flex;overflow:hidden">
+        <!-- Sidebar -->
+        <div style="width:90px;background:rgba(255,255,255,0.02);border-right:1px solid rgba(255,255,255,0.06);padding:12px 0">
+          <div style="text-align:center;font-size:14px;font-weight:300;padding:8px 0 12px;color:rgba(255,255,255,0.6)">Settings</div>
+          <div style="padding:6px 10px;background:rgba(10,132,255,0.15);border-right:2px solid rgba(10,132,255,0.8);color:rgba(255,255,255,0.8);font-size:10px">General</div>
+          <div style="padding:6px 10px;color:rgba(255,255,255,0.35);font-size:10px">Model</div>
+          <div style="padding:6px 10px;color:rgba(255,255,255,0.35);font-size:10px">Audio</div>
+          <div style="padding:6px 10px;color:rgba(255,255,255,0.35);font-size:10px">History</div>
+        </div>
+        <!-- Content -->
+        <div style="flex:1;padding:14px">
+          <div style="font-size:14px;font-weight:400;margin-bottom:10px">General</div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;margin-bottom:6px">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(255,255,255,0.5)">Hotkey</span><span style="color:rgba(255,255,255,0.7)">ctrl+space</span></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px;margin-bottom:6px">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(255,255,255,0.5)">Auto-paste</span><div style="width:28px;height:16px;background:#34c759;border-radius:8px"></div></div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:8px 10px">
+            <div style="display:flex;justify-content:space-between"><span style="color:rgba(255,255,255,0.5)">Theme</span><span style="color:rgba(255,255,255,0.7)">Auto</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Sidebar + Conteudo</h3>
+      <p>Navegacao lateral com abas: General, Model, Audio, History. Estilo System Settings do macOS. Mais organizado para muitas opcoes.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#111;padding:16px;border-radius:12px 12px 0 0">
+      <div style="background:rgba(30,30,30,0.95);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px;font-family:-apple-system,sans-serif;color:#fff;width:320px;margin:0 auto;font-size:11px">
+        <div style="text-align:center;font-size:16px;font-weight:300;margin-bottom:12px">Settings</div>
+
+        <!-- Tabs -->
+        <div style="display:flex;background:rgba(255,255,255,0.04);border-radius:8px;padding:2px;margin-bottom:14px">
+          <div style="flex:1;padding:5px;background:rgba(255,255,255,0.08);border-radius:6px;text-align:center;font-size:10px;color:rgba(255,255,255,0.8)">General</div>
+          <div style="flex:1;padding:5px;text-align:center;font-size:10px;color:rgba(255,255,255,0.35)">Model</div>
+          <div style="flex:1;padding:5px;text-align:center;font-size:10px;color:rgba(255,255,255,0.35)">Advanced</div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:rgba(255,255,255,0.5)">Hotkey</span><span style="color:rgba(255,255,255,0.7)">ctrl+space</span></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Language</span><span style="color:rgba(255,255,255,0.7)">Portuguese</span></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Auto-paste</span><div style="width:28px;height:16px;background:#34c759;border-radius:8px"></div></div>
+          <div style="height:1px;background:rgba(255,255,255,0.04);margin:4px 0"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:6px"><span style="color:rgba(255,255,255,0.5)">Post-process</span><div style="width:28px;height:16px;background:#34c759;border-radius:8px"></div></div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <div style="flex:1;padding:8px;background:rgba(255,255,255,0.04);border-radius:8px;text-align:center;color:rgba(255,255,255,0.4)">Cancel</div>
+          <div style="flex:1;padding:8px;background:rgba(10,132,255,0.8);border-radius:8px;text-align:center;color:#fff">Save</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Tabs Segmentadas</h3>
+      <p>Controle segmentado no topo (estilo iOS/macOS) com abas: General, Model, Advanced. Compacto e organizado.</p>
+    </div>
+  </div>
+
+</div>
