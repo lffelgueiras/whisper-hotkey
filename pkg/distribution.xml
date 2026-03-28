@@ -34,7 +34,7 @@
         </html>
     ]]></welcome>
     <options customize="never" require-scripts="false" hostArchitectures="arm64"/>
-    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
+    <domains enable_anywhere="true" enable_currentUserHome="false" enable_localSystem="false"/>
     <pkg-ref id="com.whisperhotkey.app"/>
     <choices-outline>
         <line choice="default">

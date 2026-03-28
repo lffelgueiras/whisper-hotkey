@@ -26,25 +26,23 @@ mkdir -p "$BUILD_DIR/payload"
 mkdir -p "$BUILD_DIR/scripts"
 mkdir -p "$OUTPUT_DIR"
 
-# ── Stage payload files ─────────────────────────────────────────────────────
-info "Staging payload files..."
-cp "$SCRIPT_DIR/whisper_hotkey.py" "$BUILD_DIR/payload/"
-cp -r "$SCRIPT_DIR/icons" "$BUILD_DIR/payload/"
-cp "$SCRIPT_DIR/install.sh" "$BUILD_DIR/payload/"
-cp "$SCRIPT_DIR/launcher.sh" "$BUILD_DIR/payload/"
-
-# ── Stage postinstall script ────────────────────────────────────────────────
-info "Staging postinstall script..."
+# ── Stage scripts (postinstall + app files bundled together) ─────────────────
+info "Staging scripts and payload..."
 cp "$SCRIPT_DIR/pkg/postinstall" "$BUILD_DIR/scripts/postinstall"
 chmod +x "$BUILD_DIR/scripts/postinstall"
+# Bundle app files inside scripts dir so postinstall can access them
+mkdir -p "$BUILD_DIR/scripts/payload"
+cp "$SCRIPT_DIR/whisper_hotkey.py" "$BUILD_DIR/scripts/payload/"
+cp -r "$SCRIPT_DIR/icons" "$BUILD_DIR/scripts/payload/"
+cp "$SCRIPT_DIR/install.sh" "$BUILD_DIR/scripts/payload/"
+cp "$SCRIPT_DIR/launcher.sh" "$BUILD_DIR/scripts/payload/"
 
-# ── Build component .pkg ────────────────────────────────────────────────────
+# ── Build component .pkg (nopayload — postinstall handles everything) ───────
 info "Building component package..."
 pkgbuild \
     --identifier "$PKG_ID" \
     --version "$VERSION" \
-    --root "$BUILD_DIR/payload" \
-    --install-location "/tmp/whisper-hotkey-payload" \
+    --nopayload \
     --scripts "$BUILD_DIR/scripts" \
     "$BUILD_DIR/WhisperHotkey-component.pkg"
 

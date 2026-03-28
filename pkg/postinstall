@@ -14,9 +14,9 @@ if [ "$REAL_USER" = "root" ] || [ -z "$REAL_HOME" ] || [ "$REAL_HOME" = "/var/ro
 fi
 
 INSTALL_DIR="$REAL_HOME/.whisper-hotkey"
-# pkg postinstall args: $1=package_path $2=install_location $3=volume
-# The payload was extracted to $REAL_HOME + install-location by the pkg installer
-PKG_PAYLOAD="$REAL_HOME/tmp/whisper-hotkey-payload"
+# The payload files are bundled in the scripts/payload/ directory alongside this script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PKG_PAYLOAD="$SCRIPT_DIR/payload"
 
 # ── Copy application files to ~/.whisper-hotkey/ ─────────────────────────────
 mkdir -p "$INSTALL_DIR"
@@ -92,10 +92,6 @@ fi
 
 # Code sign (ad-hoc)
 codesign --force --deep --sign - "$APP_DIR" 2>/dev/null || true
-
-# ── Clean up extracted payload ───────────────────────────────────────────────
-rm -rf "$REAL_HOME/tmp/whisper-hotkey-payload"
-rmdir "$REAL_HOME/tmp" 2>/dev/null || true
 
 # ── Open Terminal to complete dependency installation ────────────────────────
 su "$REAL_USER" -c "osascript -e 'tell application \"Terminal\" to do script \"\\\"$INSTALL_DIR/install.sh\\\" --from-pkg\"' -e 'tell application \"Terminal\" to activate'"
