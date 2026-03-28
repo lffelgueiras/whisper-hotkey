@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="2">
+    <title>Whisper Hotkey</title>
+    <welcome language="pt" mime-type="text/html"><![CDATA[
+        <html>
+        <body style="font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6;">
+        <h2>Bem-vindo ao Whisper Hotkey</h2>
+        <p>Este instalador vai configurar o <strong>Whisper Hotkey</strong> no seu Mac.</p>
+        <p>Apos a instalacao, uma janela do <strong>Terminal</strong> vai abrir automaticamente para baixar os modelos de IA necessarios (~3.7GB). Isso pode levar alguns minutos dependendo da sua conexao.</p>
+        <p><strong>Requisitos:</strong></p>
+        <ul>
+            <li>Apple Silicon (M1/M2/M3/M4)</li>
+            <li>macOS 12.0 ou superior</li>
+            <li>Conexao com a internet</li>
+            <li>~5GB de espaco livre</li>
+        </ul>
+        </body>
+        </html>
+    ]]></welcome>
+    <welcome mime-type="text/html"><![CDATA[
+        <html>
+        <body style="font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: 14px; line-height: 1.6;">
+        <h2>Welcome to Whisper Hotkey</h2>
+        <p>This installer will set up <strong>Whisper Hotkey</strong> on your Mac.</p>
+        <p>After installation, a <strong>Terminal</strong> window will open automatically to download the required AI models (~3.7GB). This may take a few minutes depending on your connection.</p>
+        <p><strong>Requirements:</strong></p>
+        <ul>
+            <li>Apple Silicon (M1/M2/M3/M4)</li>
+            <li>macOS 12.0 or later</li>
+            <li>Internet connection</li>
+            <li>~5GB free disk space</li>
+        </ul>
+        </body>
+        </html>
+    ]]></welcome>
+    <options customize="never" require-scripts="false" hostArchitectures="arm64"/>
+    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
+    <pkg-ref id="com.whisperhotkey.app"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="com.whisperhotkey.app"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="com.whisperhotkey.app" visible="false">
+        <pkg-ref id="com.whisperhotkey.app"/>
+    </choice>
+    <pkg-ref id="com.whisperhotkey.app" version="1.0" onConclusion="none">#WhisperHotkey-component.pkg</pkg-ref>
+</installer-gui-script>
