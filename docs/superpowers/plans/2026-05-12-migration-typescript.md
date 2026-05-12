@@ -541,7 +541,7 @@ git commit -m "chore(m0): add tracing-based logging"
 **Files:**
 - Create: `.github/workflows/ci.yml`
 
-- [ ] **Step 1: Write the workflow**
+- [x] **Step 1: Write the workflow**
 
 Create `.github/workflows/ci.yml`:
 ```yaml
@@ -593,7 +593,7 @@ jobs:
         run: pnpm tauri build --debug
 ```
 
-- [ ] **Step 2: Add lint script**
+- [x] **Step 2: Add lint script**
 
 Edit `package.json` `scripts`:
 ```json
@@ -610,7 +610,7 @@ Edit `package.json` `scripts`:
 }
 ```
 
-- [ ] **Step 3: Add a placeholder Vitest test so the test step passes**
+- [x] **Step 3: Add a placeholder Vitest test so the test step passes**
 
 Create `src/lib/__tests__/placeholder.test.ts`:
 ```ts
@@ -629,7 +629,7 @@ Add to `vite.config.ts`:
 test: { environment: "jsdom", globals: false },
 ```
 
-- [ ] **Step 4: Commit and push**
+- [x] **Step 4: Commit and push**
 
 ```bash
 git add -A
@@ -4511,7 +4511,7 @@ Which approach?
 - [x] **M0.3** Set up Tailwind CSS and shadcn/ui
 - [x] **M0.4** Add Tauri tray with Quit menu
 - [x] **M0.5** Add `tracing` logging bootstrap
-- [ ] **M0.6** CI workflow — build + test on macOS and Windows
+- [x] **M0.6** CI workflow — build + test on macOS and Windows
 
 ## M1 — Pipeline core
 
