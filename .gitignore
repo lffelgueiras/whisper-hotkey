@@ -1,6 +1,35 @@
+# Node / frontend
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Tauri / Rust
+src-tauri/target/
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Python legacy
+__pycache__/
 whisper-hotkey.zip
 rm_icon_cache.ps1
 make_ico.py
-dist/
-__pycache__/
-.DS_Store
+
+# Logs / env
+logs
+*.log
+.env
