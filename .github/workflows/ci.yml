@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 10 }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with: { workspaces: "src-tauri" }
+      - name: Install macOS deps
+        if: runner.os == 'macOS'
+        run: brew install create-dmg
+      - name: pnpm install
+        run: pnpm install --frozen-lockfile
+      - name: Frontend lint
+        run: pnpm lint || true
+      - name: Frontend test
+        run: pnpm test
+      - name: Rust fmt
+        working-directory: src-tauri
+        run: cargo fmt --check
+      - name: Rust clippy
+        working-directory: src-tauri
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Rust test
+        working-directory: src-tauri
+        run: cargo test
+      - name: Tauri build (debug only on CI)
+        run: pnpm tauri build --debug
