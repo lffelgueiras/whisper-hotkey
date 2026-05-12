@@ -4497,3 +4497,104 @@ Plan complete and saved to `docs/superpowers/plans/2026-05-12-migration-typescri
 **2. Inline Execution** — Execute tasks in this session using `executing-plans`, batch execution with checkpoints.
 
 Which approach?
+
+---
+
+# Task checklist (master tracker)
+
+> **For the executing agent:** mark each task `[x]` as soon as its final commit lands. One milestone per group. If a task is split into sub-tasks while executing, add nested items underneath — do not mutate the existing line. Tasks must be completed in order within a milestone; milestones must be completed in numeric order (M0 → M10).
+
+## M0 — Scaffold
+
+- [ ] **M0.1** Initialize Tauri project scaffold
+- [ ] **M0.2** Pin versions and add core dev dependencies
+- [ ] **M0.3** Set up Tailwind CSS and shadcn/ui
+- [ ] **M0.4** Add Tauri tray with Quit menu
+- [ ] **M0.5** Add `tracing` logging bootstrap
+- [ ] **M0.6** CI workflow — build + test on macOS and Windows
+
+## M1 — Pipeline core
+
+- [ ] **M1.1** Define `AppError` and `ErrorKind`
+- [ ] **M1.2** Audio capture module — start/stop/get-samples
+- [ ] **M1.3** Vocabulary builder
+- [ ] **M1.4** `Transcriber` trait + whisper.cpp implementation
+- [ ] **M1.5** Paste module — macOS
+- [ ] **M1.6** Paste module — Windows
+- [ ] **M1.7** State machine actor
+- [ ] **M1.8** Global hotkey wiring
+- [ ] **M1.9** Model bootstrap — download whisper-tiny on first run
+- [ ] **M1.10** Wire pipeline end-to-end through `main.rs`
+- [ ] **M1.11** Smoke-test transcription with a generated audio sample
+- [ ] **M1.12** Documentation — `README.dev.md`
+
+## M2 — Overlay window
+
+- [ ] **M2.1** Multi-window setup in `tauri.conf.json`
+- [ ] **M2.2** OverlayWindow React component with three states
+- [ ] **M2.3** Emit state events from Rust
+- [ ] **M2.4** Overlay position config (read-only for now)
+
+## M3 — Settings: General + Model tabs
+
+- [ ] **M3.1** Config schema + storage
+- [ ] **M3.2** Tauri commands for config get/update
+- [ ] **M3.3** Settings window — shell
+- [ ] **M3.4** General tab
+- [ ] **M3.5** React to hotkey config changes at runtime
+- [ ] **M3.6** Model tab with download progress
+- [ ] **M3.7** Wire up `ts-rs` generation
+- [ ] **M3.8** Update `README.dev.md` and lock M3
+
+## M4 — History
+
+- [ ] **M4.1** History storage
+- [ ] **M4.2** Append history during pipeline
+- [ ] **M4.3** History commands + window
+
+## M5 — Vocabulary + Replacements
+
+- [ ] **M5.1** Replacements engine
+- [ ] **M5.2** Vocabulary tab UI
+
+## M6 — LLM post-processing
+
+- [ ] **M6.1** `PostProcessor` trait + llama-cpp scaffold
+- [ ] **M6.2** Concrete llama-cpp integration
+- [ ] **M6.3** Wire post-processing into pipeline
+
+## M7 — Onboarding + Permissions
+
+- [ ] **M7.1** Onboarding window scaffolding
+- [ ] **M7.2** Permission helpers
+- [ ] **M7.3** Permissions step UI
+- [ ] **M7.4** Model download step
+
+## M8 — Polish
+
+- [ ] **M8.1** Apply theme
+- [ ] **M8.2** Toast on errors
+- [ ] **M8.3** File-based rotating logs
+
+## M9 — Distribution
+
+- [ ] **M9.1** macOS signing + notarization
+- [ ] **M9.2** Windows installer (NSIS)
+
+## M10 — Retire Python
+
+- [ ] **M10.1** Delete Python files
+- [ ] **M10.2** Rewrite `README.md`
+- [ ] **M10.3** Tag v1.0.0
+
+## Cross-cutting follow-ups (track separately — not blockers)
+
+- [ ] Replace placeholder SHA256 values in `models.rs` with real hashes before any user-facing release
+- [ ] Validate that overlay clicks don't steal focus on macOS (`acceptFirstMouse: false` + `focus: false`)
+- [ ] Apply `useApplyTheme()` inside `overlay-main.tsx` and `history-main.tsx` (M8.1 covers the main window only)
+- [ ] Playwright e2e specs for settings and onboarding (deferred to v1.1)
+- [ ] Microphone test/visualizer in Settings → Model (deferred to v1.1)
+- [ ] Right-click overlay menu (deferred to v1.1)
+- [ ] CUDA support for Windows whisper.cpp (deferred to v1.1)
+
+**Totals:** 50 sequenced tasks across 11 milestones, 7 cross-cutting follow-ups.
