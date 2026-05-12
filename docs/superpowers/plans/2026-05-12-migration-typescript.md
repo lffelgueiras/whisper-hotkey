@@ -655,7 +655,7 @@ Verify the CI run goes green on both runners. If clippy/fmt fails, fix and re-pu
 - Create: `src-tauri/src/error.rs`
 - Modify: `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `src-tauri/src/error.rs`:
 ```rust
@@ -744,11 +744,11 @@ mod tests {
 }
 ```
 
-- [ ] **Step 2: Hook into main**
+- [x] **Step 2: Hook into main**
 
 Add `mod error;` to `src-tauri/src/main.rs`.
 
-- [ ] **Step 3: Run tests**
+- [x] **Step 3: Run tests**
 
 ```bash
 cd src-tauri && cargo test error::
@@ -756,7 +756,7 @@ cd src-tauri && cargo test error::
 
 Expected: 2 passed.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4515,7 +4515,7 @@ Which approach?
 
 ## M1 — Pipeline core
 
-- [ ] **M1.1** Define `AppError` and `ErrorKind`
+- [x] **M1.1** Define `AppError` and `ErrorKind`
 - [ ] **M1.2** Audio capture module — start/stop/get-samples
 - [ ] **M1.3** Vocabulary builder
 - [ ] **M1.4** `Transcriber` trait + whisper.cpp implementation
