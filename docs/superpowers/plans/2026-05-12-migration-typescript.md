@@ -150,7 +150,7 @@ whisper-hotkey-typescript/
 - Create: `package.json`, `pnpm-lock.yaml`, `vite.config.ts`, `tsconfig.json`, `index.html`, `src/main.tsx`, `src/App.tsx`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json`, `src-tauri/src/main.rs`, `src-tauri/build.rs`
 - Modify: `.gitignore`
 
-- [ ] **Step 1: Run the Tauri scaffolder**
+- [x] **Step 1: Run the Tauri scaffolder**
 
 Run from repo root:
 ```bash
@@ -167,7 +167,7 @@ When prompted:
 
 Accept overwriting `.gitignore` only after diffing — preserve existing entries.
 
-- [ ] **Step 2: Verify it builds**
+- [x] **Step 2: Verify it builds**
 
 Run:
 ```bash
@@ -177,7 +177,7 @@ pnpm tauri dev
 
 Expected: A window opens showing the default Tauri welcome page. Close it.
 
-- [ ] **Step 3: Add the project's `.gitignore` entries back**
+- [x] **Step 3: Add the project's `.gitignore` entries back**
 
 Ensure `.gitignore` contains (merge with whatever the scaffolder produced):
 ```
@@ -192,7 +192,7 @@ src-tauri/Cargo.lock        # keep Cargo.lock? remove this line if you want it t
 
 Decision: **keep `Cargo.lock` tracked** for reproducible builds. Remove the `Cargo.lock` line from `.gitignore`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -206,7 +206,7 @@ git commit -m "chore(m0): scaffold tauri 2 project (react + ts + pnpm)"
 **Files:**
 - Modify: `package.json`, `src-tauri/Cargo.toml`
 
-- [ ] **Step 1: Pin Node deps**
+- [x] **Step 1: Pin Node deps**
 
 Edit `package.json` `devDependencies` to add:
 ```json
@@ -237,7 +237,7 @@ Run:
 pnpm install
 ```
 
-- [ ] **Step 2: Pin Rust deps**
+- [x] **Step 2: Pin Rust deps**
 
 Edit `src-tauri/Cargo.toml` `[dependencies]`:
 ```toml
@@ -256,7 +256,7 @@ ts-rs = "10"
 tauri-build = { version = "2", features = [] }
 ```
 
-- [ ] **Step 3: Verify build still works**
+- [x] **Step 3: Verify build still works**
 
 Run:
 ```bash
@@ -265,7 +265,7 @@ pnpm tauri dev
 
 Expected: Window opens, tray icon API available (tray feature compiled in). Close.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add package.json pnpm-lock.yaml src-tauri/Cargo.toml src-tauri/Cargo.lock
@@ -4506,8 +4506,8 @@ Which approach?
 
 ## M0 — Scaffold
 
-- [ ] **M0.1** Initialize Tauri project scaffold
-- [ ] **M0.2** Pin versions and add core dev dependencies
+- [x] **M0.1** Initialize Tauri project scaffold
+- [x] **M0.2** Pin versions and add core dev dependencies
 - [ ] **M0.3** Set up Tailwind CSS and shadcn/ui
 - [ ] **M0.4** Add Tauri tray with Quit menu
 - [ ] **M0.5** Add `tracing` logging bootstrap
