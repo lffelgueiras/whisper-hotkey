@@ -771,7 +771,7 @@ git commit -m "feat(m1): add AppError + DTO with thiserror + ts-rs"
 - Create: `src-tauri/src/audio.rs`
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Add cpal**
+- [x] **Step 1: Add cpal**
 
 Append to `src-tauri/Cargo.toml`:
 ```toml
@@ -780,7 +780,7 @@ rubato = "0.15"   # resampling to 16kHz
 parking_lot = "0.12"
 ```
 
-- [ ] **Step 2: Write failing tests**
+- [x] **Step 2: Write failing tests**
 
 Create `src-tauri/src/audio.rs`:
 ```rust
@@ -916,7 +916,7 @@ mod tests {
 }
 ```
 
-- [ ] **Step 3: Run tests**
+- [x] **Step 3: Run tests**
 
 ```bash
 cd src-tauri && cargo test audio::
@@ -924,11 +924,11 @@ cd src-tauri && cargo test audio::
 
 Expected: 3 passed.
 
-- [ ] **Step 4: Wire module**
+- [x] **Step 4: Wire module**
 
 Add `mod audio;` to `main.rs`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4516,7 +4516,7 @@ Which approach?
 ## M1 — Pipeline core
 
 - [x] **M1.1** Define `AppError` and `ErrorKind`
-- [ ] **M1.2** Audio capture module — start/stop/get-samples
+- [x] **M1.2** Audio capture module — start/stop/get-samples
 - [ ] **M1.3** Vocabulary builder
 - [ ] **M1.4** `Transcriber` trait + whisper.cpp implementation
 - [ ] **M1.5** Paste module — macOS
