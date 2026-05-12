@@ -280,14 +280,14 @@ git commit -m "chore(m0): pin core deps (tauri 2, vitest, playwright, ts-rs)"
 - Create: `tailwind.config.ts`, `postcss.config.js`, `src/styles/globals.css`, `components.json`
 - Modify: `src/main.tsx`, `package.json`
 
-- [ ] **Step 1: Install Tailwind**
+- [x] **Step 1: Install Tailwind**
 
 ```bash
 pnpm add -D tailwindcss postcss autoprefixer
 pnpm dlx tailwindcss init -p
 ```
 
-- [ ] **Step 2: Configure Tailwind**
+- [x] **Step 2: Configure Tailwind**
 
 Replace `tailwind.config.ts` with:
 ```ts
@@ -311,7 +311,7 @@ export default {
 } satisfies Config;
 ```
 
-- [ ] **Step 3: Create globals.css**
+- [x] **Step 3: Create globals.css**
 
 Create `src/styles/globals.css`:
 ```css
@@ -338,7 +338,7 @@ Create `src/styles/globals.css`:
 }
 ```
 
-- [ ] **Step 4: Import globals.css**
+- [x] **Step 4: Import globals.css**
 
 Replace `src/main.tsx`:
 ```tsx
@@ -354,7 +354,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 ```
 
-- [ ] **Step 5: Initialize shadcn/ui**
+- [x] **Step 5: Initialize shadcn/ui**
 
 ```bash
 pnpm dlx shadcn@latest init
@@ -364,7 +364,7 @@ When prompted: TypeScript, Slate base color, `src/styles/globals.css`, `tailwind
 
 This creates `components.json` and `src/components/ui/` (initially empty).
 
-- [ ] **Step 6: Add `@/` path alias to tsconfig and vite**
+- [x] **Step 6: Add `@/` path alias to tsconfig and vite**
 
 Edit `tsconfig.json` `compilerOptions`:
 ```json
@@ -388,7 +388,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 7: Verify**
+- [x] **Step 7: Verify**
 
 ```bash
 pnpm tauri dev
@@ -396,7 +396,7 @@ pnpm tauri dev
 
 Expected: window opens, Tailwind base styles apply (sans-serif font, background color).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add -A
@@ -4508,7 +4508,7 @@ Which approach?
 
 - [x] **M0.1** Initialize Tauri project scaffold
 - [x] **M0.2** Pin versions and add core dev dependencies
-- [ ] **M0.3** Set up Tailwind CSS and shadcn/ui
+- [x] **M0.3** Set up Tailwind CSS and shadcn/ui
 - [ ] **M0.4** Add Tauri tray with Quit menu
 - [ ] **M0.5** Add `tracing` logging bootstrap
 - [ ] **M0.6** CI workflow — build + test on macOS and Windows

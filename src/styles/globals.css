@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+    --muted: 240 5% 96%;
+    --accent: 211 100% 50%;
+    --border: 240 6% 90%;
+  }
+  .dark {
+    --background: 240 6% 10%;
+    --foreground: 0 0% 95%;
+    --muted: 240 4% 16%;
+    --accent: 211 100% 60%;
+    --border: 240 4% 20%;
+  }
+  body { @apply bg-background text-foreground antialiased; }
+}
