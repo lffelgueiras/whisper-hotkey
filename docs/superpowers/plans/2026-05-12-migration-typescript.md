@@ -410,7 +410,7 @@ git commit -m "chore(m0): set up tailwind + shadcn/ui"
 **Files:**
 - Modify: `src-tauri/src/main.rs`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml`
 
-- [ ] **Step 1: Configure tray in tauri.conf.json**
+- [x] **Step 1: Configure tray in tauri.conf.json**
 
 Edit `src-tauri/tauri.conf.json`:
 ```json
@@ -444,7 +444,7 @@ Copy `icons/whisper.png` to `src-tauri/icons/icon.png` (or generate platform ico
 pnpm tauri icon icons/whisper.png
 ```
 
-- [ ] **Step 2: Build tray menu in main.rs**
+- [x] **Step 2: Build tray menu in main.rs**
 
 Replace `src-tauri/src/main.rs`:
 ```rust
@@ -475,7 +475,7 @@ fn main() {
 }
 ```
 
-- [ ] **Step 3: Smoke test**
+- [x] **Step 3: Smoke test**
 
 ```bash
 pnpm tauri dev
@@ -483,7 +483,7 @@ pnpm tauri dev
 
 Expected: No visible window opens. A tray icon appears (top-right on macOS, system tray on Windows). Clicking it shows "Quit". Clicking Quit exits.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -498,7 +498,7 @@ git commit -m "feat(m0): add system tray with quit menu, hide main window on lau
 - Create: `src-tauri/src/logging.rs`
 - Modify: `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Create logging module**
+- [x] **Step 1: Create logging module**
 
 Create `src-tauri/src/logging.rs`:
 ```rust
@@ -515,11 +515,11 @@ pub fn init() {
 }
 ```
 
-- [ ] **Step 2: Wire into main**
+- [x] **Step 2: Wire into main**
 
 Edit `src-tauri/src/main.rs` — add `mod logging;` near the top and call `logging::init();` as the first line of `main()`.
 
-- [ ] **Step 3: Verify logs appear**
+- [x] **Step 3: Verify logs appear**
 
 ```bash
 pnpm tauri dev
@@ -527,7 +527,7 @@ pnpm tauri dev
 
 Expected: Console shows `INFO logging initialized` before tray appears.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4509,8 +4509,8 @@ Which approach?
 - [x] **M0.1** Initialize Tauri project scaffold
 - [x] **M0.2** Pin versions and add core dev dependencies
 - [x] **M0.3** Set up Tailwind CSS and shadcn/ui
-- [ ] **M0.4** Add Tauri tray with Quit menu
-- [ ] **M0.5** Add `tracing` logging bootstrap
+- [x] **M0.4** Add Tauri tray with Quit menu
+- [x] **M0.5** Add `tracing` logging bootstrap
 - [ ] **M0.6** CI workflow — build + test on macOS and Windows
 
 ## M1 — Pipeline core
