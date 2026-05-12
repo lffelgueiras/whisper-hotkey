@@ -1,3 +1,4 @@
+mod error;
 mod logging;
 
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
