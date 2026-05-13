@@ -14,6 +14,14 @@ pub struct HotkeyService {
     current: Option<HotKey>,
 }
 
+// GlobalHotKeyManager on Windows holds a raw HWND pointer (`*mut c_void`) which
+// is not auto-Send/Sync. Access is serialized through an Arc<Mutex<…>> wrapper
+// in HotkeyState, so it is safe to share across threads.
+#[cfg(target_os = "windows")]
+unsafe impl Send for HotkeyService {}
+#[cfg(target_os = "windows")]
+unsafe impl Sync for HotkeyService {}
+
 impl HotkeyService {
     pub fn new() -> Result<Self, AppError> {
         let manager = GlobalHotKeyManager::new()
