@@ -4215,7 +4215,7 @@ git commit -m "feat(m8): backend errors surface as toast notifications"
 **Files:**
 - Modify: `src-tauri/src/logging.rs`, `src-tauri/Cargo.toml`
 
-- [ ] **Step 1: Add rolling appender**
+- [x] **Step 1: Add rolling appender**
 
 ```toml
 tracing-appender = "0.2"
@@ -4246,11 +4246,11 @@ pub fn init() -> tracing_appender::non_blocking::WorkerGuard {
 
 Update `main.rs`: `let _guard = logging::init();` and keep `_guard` alive until exit.
 
-- [ ] **Step 2: Add "Open logs folder" tray entry**
+- [x] **Step 2: Add "Open logs folder" tray entry**
 
 Add menu item that calls `tauri_plugin_shell::ShellExt::shell().open(...)` on the logs dir.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4574,7 +4574,7 @@ Which approach?
 
 - [x] **M8.1** Apply theme
 - [x] **M8.2** Toast on errors
-- [ ] **M8.3** File-based rotating logs
+- [x] **M8.3** File-based rotating logs
 
 ## M9 — Distribution
 
