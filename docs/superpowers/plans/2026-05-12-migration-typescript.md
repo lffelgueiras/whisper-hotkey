@@ -1685,7 +1685,7 @@ git commit -m "feat(m1): model downloader with sha256 verify and resume"
 **Files:**
 - Modify: `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Replace main.rs with full wiring**
+- [x] **Step 1: Replace main.rs with full wiring**
 
 Replace `src-tauri/src/main.rs`:
 ```rust
@@ -1855,7 +1855,7 @@ fn main() {
 > ```
 > Use that form.
 
-- [ ] **Step 2: Compile**
+- [x] **Step 2: Compile**
 
 ```bash
 cd src-tauri && cargo build
@@ -1863,7 +1863,7 @@ cd src-tauri && cargo build
 
 Fix any compile errors that surface (likely import paths or async fn signatures).
 
-- [ ] **Step 3: Smoke run — manual**
+- [x] **Step 3: Smoke run — manual**
 
 ```bash
 pnpm tauri dev
@@ -1883,7 +1883,7 @@ If the model SHA check fails (because the placeholder hashes haven't been update
 3. Update `models.rs` `builtin_catalog()` with the real value.
 4. Commit the hash update with `chore(m1): real sha256 for whisper-base`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4524,7 +4524,7 @@ Which approach?
 - [x] **M1.7** State machine actor
 - [x] **M1.8** Global hotkey wiring
 - [x] **M1.9** Model bootstrap — download whisper-tiny on first run
-- [ ] **M1.10** Wire pipeline end-to-end through `main.rs`
+- [x] **M1.10** Wire pipeline end-to-end through `main.rs`
 - [ ] **M1.11** Smoke-test transcription with a generated audio sample
 - [ ] **M1.12** Documentation — `README.dev.md`
 
