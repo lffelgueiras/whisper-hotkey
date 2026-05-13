@@ -3996,7 +3996,7 @@ git commit -m "feat(m7): permission check + deep-link to macOS accessibility pan
 **Files:**
 - Create: `src/windows/onboarding/steps/PermissionsStep.tsx`
 
-- [ ] **Step 1: Component**
+- [x] **Step 1: Component**
 
 ```tsx
 import { useEffect, useState } from "react";
@@ -4058,11 +4058,11 @@ function Row({ ok, title, help, action }: { ok: boolean; title: string; help: st
 }
 ```
 
-- [ ] **Step 2: Smoke**
+- [x] **Step 2: Smoke**
 
 Reset app data, launch, click "Open System Settings", grant access, watch dot turn green, click Continue.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4567,7 +4567,7 @@ Which approach?
 
 - [x] **M7.1** Onboarding window scaffolding
 - [x] **M7.2** Permission helpers
-- [ ] **M7.3** Permissions step UI
+- [x] **M7.3** Permissions step UI
 - [ ] **M7.4** Model download step
 
 ## M8 — Polish
