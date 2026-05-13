@@ -12,6 +12,9 @@ lerna-debug.log*
 # Tauri / Rust
 src-tauri/target/
 
+# Prebuilt llama.cpp binaries fetched by scripts/fetch-llama-runtime.*
+src-tauri/binaries/
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

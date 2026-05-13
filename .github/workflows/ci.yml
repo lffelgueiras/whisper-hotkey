@@ -29,6 +29,13 @@ jobs:
         run: brew install create-dmg
       - name: pnpm install
         run: pnpm install --frozen-lockfile
+      - name: Fetch llama.cpp runtime (macOS)
+        if: runner.os == 'macOS'
+        run: bash scripts/fetch-llama-runtime.sh
+      - name: Fetch llama.cpp runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pwsh scripts/fetch-llama-runtime.ps1
       - name: Frontend lint
         run: pnpm lint || true
       - name: Frontend test

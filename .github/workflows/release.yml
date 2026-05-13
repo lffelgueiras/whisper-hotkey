@@ -5,8 +5,12 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
-        os: [macos-14, windows-2022]
+        include:
+          - os: macos-14
+          - os: windows-2022
+          - os: windows-11-arm
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -16,6 +20,13 @@ jobs:
         with: { node-version: 20, cache: pnpm }
       - uses: dtolnay/rust-toolchain@stable
       - run: pnpm install --frozen-lockfile
+      - name: Fetch llama.cpp runtime (macOS)
+        if: runner.os == 'macOS'
+        run: bash scripts/fetch-llama-runtime.sh
+      - name: Fetch llama.cpp runtime (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: pwsh scripts/fetch-llama-runtime.ps1
       - name: Build (macOS)
         if: runner.os == 'macOS'
         env:

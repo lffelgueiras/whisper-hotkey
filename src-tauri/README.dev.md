@@ -1,4 +1,21 @@
 
+## Setting up the llama.cpp runtime
+
+Before the first `pnpm tauri build` (or `dev`), fetch the prebuilt
+llama.cpp binaries for your platform. They're gitignored and pinned to
+a specific release inside the script.
+
+```bash
+# macOS / Linux
+bash scripts/fetch-llama-runtime.sh
+
+# Windows
+pwsh scripts/fetch-llama-runtime.ps1
+```
+
+Override the pinned version with `LLAMA_CPP_VERSION=bXXXX` if needed.
+CI runs these scripts automatically.
+
 ## Regenerating IPC types
 
 After changing any Rust type that derives `ts_rs::TS`:
