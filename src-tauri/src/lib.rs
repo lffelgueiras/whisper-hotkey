@@ -1,5 +1,7 @@
 pub mod app_state;
 pub mod asr;
+pub mod commands;
+pub mod storage;
 pub mod audio;
 pub mod error;
 pub mod events;
@@ -133,6 +135,15 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
+        .manage(commands::ConfigState(std::sync::Arc::new(
+            parking_lot::Mutex::new(storage::config::load()),
+        )))
+        .invoke_handler(tauri::generate_handler![
+            commands::get_config,
+            commands::update_config,
+            commands::list_models,
+            commands::download_model,
+        ])
         .setup(move |app| {
             let app_obj = Arc::new(App {
                 state: Mutex::new(RecordingState::Idle),
@@ -142,14 +153,20 @@ pub fn run() {
                 handle: app.handle().clone(),
             });
 
+            let settings = MenuItemBuilder::with_id("settings", "Settings…").build(app)?;
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
-            let menu = MenuBuilder::new(app).items(&[&quit]).build()?;
+            let menu = MenuBuilder::new(app).items(&[&settings, &quit]).build()?;
             let _tray = TrayIconBuilder::with_id("main")
                 .menu(&menu)
-                .on_menu_event(|app, event| {
-                    if event.id().as_ref() == "quit" {
-                        app.exit(0);
+                .on_menu_event(|app, event| match event.id().as_ref() {
+                    "quit" => app.exit(0),
+                    "settings" => {
+                        if let Some(w) = app.get_webview_window("main") {
+                            let _ = w.show();
+                            let _ = w.set_focus();
+                        }
                     }
+                    _ => {}
                 })
                 .build(app)?;
 
