@@ -4,6 +4,7 @@ mod audio;
 mod error;
 mod hotkey;
 mod logging;
+mod models;
 mod paste;
 
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
