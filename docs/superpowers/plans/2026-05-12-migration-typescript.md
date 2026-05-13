@@ -1899,7 +1899,7 @@ This is the milestone-defining commit. After this, the app actually works.
 **Files:**
 - Create: `src-tauri/tests/transcribe_smoke.rs`, `src-tauri/tests/fixtures/jfk.wav`
 
-- [ ] **Step 1: Add fixture**
+- [x] **Step 1: Add fixture**
 
 Use the canonical 11-second JFK sample shipped with whisper.cpp:
 ```bash
@@ -1907,7 +1907,7 @@ curl -L -o src-tauri/tests/fixtures/jfk.wav \
   https://github.com/ggerganov/whisper.cpp/raw/master/samples/jfk.wav
 ```
 
-- [ ] **Step 2: Write the integration test**
+- [x] **Step 2: Write the integration test**
 
 Create `src-tauri/tests/transcribe_smoke.rs`:
 ```rust
@@ -1939,7 +1939,7 @@ fn transcribes_jfk_sample() {
 }
 ```
 
-- [ ] **Step 3: Convert binary crate to lib+bin**
+- [x] **Step 3: Convert binary crate to lib+bin**
 
 Test code needs to import modules. Edit `src-tauri/Cargo.toml`:
 ```toml
@@ -1969,7 +1969,7 @@ pub mod paste;
 
 In `main.rs` remove the `mod X;` declarations and replace with `use whisper_hotkey::{...};` for the modules it uses. Compile to fix references.
 
-- [ ] **Step 4: Run the smoke test (manually, ignored by default)**
+- [x] **Step 4: Run the smoke test (manually, ignored by default)**
 
 ```bash
 cd src-tauri && cargo test --test transcribe_smoke -- --ignored
@@ -1977,7 +1977,7 @@ cd src-tauri && cargo test --test transcribe_smoke -- --ignored
 
 Expected: passes if model is downloaded. CI does not run ignored tests, so this is a manual quality gate.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -1991,7 +1991,7 @@ git commit -m "test(m1): jfk smoke test for whisper.cpp transcription (ignored b
 **Files:**
 - Create: `README.dev.md`
 
-- [ ] **Step 1: Write developer onboarding**
+- [x] **Step 1: Write developer onboarding**
 
 Create `README.dev.md`:
 ```markdown
@@ -2034,7 +2034,7 @@ First run will download `whisper-base.bin` (~142 MB) to your app data dir
 - **whisper.cpp build fails on Windows** — make sure VS Build Tools include "Desktop development with C++".
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add README.dev.md
@@ -4525,8 +4525,8 @@ Which approach?
 - [x] **M1.8** Global hotkey wiring
 - [x] **M1.9** Model bootstrap — download whisper-tiny on first run
 - [x] **M1.10** Wire pipeline end-to-end through `main.rs`
-- [ ] **M1.11** Smoke-test transcription with a generated audio sample
-- [ ] **M1.12** Documentation — `README.dev.md`
+- [x] **M1.11** Smoke-test transcription with a generated audio sample
+- [x] **M1.12** Documentation — `README.dev.md`
 
 ## M2 — Overlay window
 
