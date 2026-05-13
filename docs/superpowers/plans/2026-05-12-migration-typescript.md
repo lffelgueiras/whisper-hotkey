@@ -942,7 +942,7 @@ git commit -m "feat(m1): audio capture via cpal + linear resample to 16kHz mono"
 **Files:**
 - Create: `src-tauri/src/asr/mod.rs`, `src-tauri/src/asr/vocabulary.rs`
 
-- [ ] **Step 1: Write tests**
+- [x] **Step 1: Write tests**
 
 Create `src-tauri/src/asr/vocabulary.rs`:
 ```rust
@@ -993,7 +993,7 @@ pub mod vocabulary;
 
 Add `mod asr;` to `main.rs`.
 
-- [ ] **Step 2: Run tests**
+- [x] **Step 2: Run tests**
 
 ```bash
 cd src-tauri && cargo test vocabulary::
@@ -1001,7 +1001,7 @@ cd src-tauri && cargo test vocabulary::
 
 Expected: 3 passed.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4517,7 +4517,7 @@ Which approach?
 
 - [x] **M1.1** Define `AppError` and `ErrorKind`
 - [x] **M1.2** Audio capture module — start/stop/get-samples
-- [ ] **M1.3** Vocabulary builder
+- [x] **M1.3** Vocabulary builder
 - [ ] **M1.4** `Transcriber` trait + whisper.cpp implementation
 - [ ] **M1.5** Paste module — macOS
 - [ ] **M1.6** Paste module — Windows
