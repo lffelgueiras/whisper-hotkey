@@ -1507,7 +1507,7 @@ git commit -m "feat(m1): global hotkey service with register/listen"
 - Create: `src-tauri/src/models.rs`
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Add deps**
+- [x] **Step 1: Add deps**
 
 Append:
 ```toml
@@ -1517,7 +1517,7 @@ futures-util = "0.3"
 dirs = "5"
 ```
 
-- [ ] **Step 2: Implement downloader with SHA verify**
+- [x] **Step 2: Implement downloader with SHA verify**
 
 Create `src-tauri/src/models.rs`:
 ```rust
@@ -1661,9 +1661,9 @@ mod tests {
 
 > NOTE for the engineer: the SHA256 values in `builtin_catalog()` are placeholders. Before merging this milestone, replace each `sha256` with the real hash by running `shasum -a 256 <downloaded model>` once. Until then, downloads will fail the verify step (which is the correct safe default).
 
-- [ ] **Step 3: Add `mod models;` to main.rs**
+- [x] **Step 3: Add `mod models;` to main.rs**
 
-- [ ] **Step 4: Run tests**
+- [x] **Step 4: Run tests**
 
 ```bash
 cd src-tauri && cargo test models::
@@ -1671,7 +1671,7 @@ cd src-tauri && cargo test models::
 
 Expected: 1 passed.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4523,7 +4523,7 @@ Which approach?
 - [x] **M1.6** Paste module — Windows
 - [x] **M1.7** State machine actor
 - [x] **M1.8** Global hotkey wiring
-- [ ] **M1.9** Model bootstrap — download whisper-tiny on first run
+- [x] **M1.9** Model bootstrap — download whisper-tiny on first run
 - [ ] **M1.10** Wire pipeline end-to-end through `main.rs`
 - [ ] **M1.11** Smoke-test transcription with a generated audio sample
 - [ ] **M1.12** Documentation — `README.dev.md`
