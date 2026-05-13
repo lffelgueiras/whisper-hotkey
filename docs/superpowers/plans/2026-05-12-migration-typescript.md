@@ -3737,11 +3737,11 @@ git commit -m "feat(m6): real llama-cpp-2 inference with greedy decoding and tim
 **Files:**
 - Modify: `src-tauri/src/main.rs`, `src-tauri/src/commands.rs`
 
-- [ ] **Step 1: Load LLM lazily, like ASR**
+- [x] **Step 1: Load LLM lazily, like ASR**
 
 Mirror `ensure_asr_loaded` with `ensure_llm_loaded` that returns `Option<Arc<dyn PostProcessor>>` (returning `None` when the toggle is off).
 
-- [ ] **Step 2: Pipeline call**
+- [x] **Step 2: Pipeline call**
 
 After replacements, before paste:
 ```rust
@@ -3759,7 +3759,7 @@ let text = if cfg.post_processing_enabled {
 
 Also update history entry `post_processed: cfg.post_processing_enabled`.
 
-- [ ] **Step 3: Add LLM models to catalog**
+- [x] **Step 3: Add LLM models to catalog**
 
 Append to `builtin_catalog()` in `models.rs`:
 ```rust
@@ -3773,7 +3773,7 @@ ModelInfo {
 },
 ```
 
-- [ ] **Step 4: Expose toggle in Model tab**
+- [x] **Step 4: Expose toggle in Model tab**
 
 Edit `ModelTab.tsx` to show:
 ```tsx
@@ -3795,11 +3795,11 @@ Edit `ModelTab.tsx` to show:
 )}
 ```
 
-- [ ] **Step 5: Smoke**
+- [x] **Step 5: Smoke**
 
 Enable toggle, download Gemma. Transcribe "ola tudo bem com voce" — should paste "Olá, tudo bem com você?".
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
@@ -4561,7 +4561,7 @@ Which approach?
 
 - [x] **M6.1** `PostProcessor` trait + llama-cpp scaffold
 - [x] **M6.2** Concrete llama-cpp integration
-- [ ] **M6.3** Wire post-processing into pipeline
+- [x] **M6.3** Wire post-processing into pipeline
 
 ## M7 — Onboarding + Permissions
 
