@@ -44,6 +44,7 @@ pub struct Config {
     pub llm_timeout_ms: u64,
     pub vocabulary: Vec<String>,
     pub replacements: Vec<ReplacementRule>,
+    pub onboarding_complete: bool,
 }
 
 impl Default for Config {
@@ -59,6 +60,7 @@ impl Default for Config {
             llm_timeout_ms: 8000,
             vocabulary: vec![],
             replacements: vec![],
+            onboarding_complete: false,
         }
     }
 }

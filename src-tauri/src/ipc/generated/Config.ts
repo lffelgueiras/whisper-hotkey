@@ -3,4 +3,4 @@ import type { OverlayPosition } from "./OverlayPosition";
 import type { ReplacementRule } from "./ReplacementRule";
 import type { Theme } from "./Theme";
 
-export type Config = { hotkey: string, auto_paste: boolean, overlay_position: OverlayPosition, theme: Theme, asr_model: string, post_processing_enabled: boolean, llm_model: string, llm_timeout_ms: bigint, vocabulary: Array<string>, replacements: Array<ReplacementRule>, };
+export type Config = { hotkey: string, auto_paste: boolean, overlay_position: OverlayPosition, theme: Theme, asr_model: string, post_processing_enabled: boolean, llm_model: string, llm_timeout_ms: bigint, vocabulary: Array<string>, replacements: Array<ReplacementRule>, onboarding_complete: boolean, };

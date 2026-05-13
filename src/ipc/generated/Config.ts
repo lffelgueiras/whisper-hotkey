@@ -16,4 +16,5 @@ export interface Config {
   llm_timeout_ms: number;
   vocabulary: string[];
   replacements: ReplacementRule[];
+  onboarding_complete: boolean;
 }

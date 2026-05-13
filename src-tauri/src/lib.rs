@@ -273,6 +273,16 @@ pub fn run() {
                 }
             });
 
+            {
+                let cfg_state = app.state::<commands::ConfigState>();
+                let onboarding_done = cfg_state.0.lock().onboarding_complete;
+                if !onboarding_done {
+                    if let Some(w) = app.get_webview_window("main") {
+                        let _ = w.show();
+                        let _ = w.set_focus();
+                    }
+                }
+            }
             app.manage(rt);
             Ok(())
         })
