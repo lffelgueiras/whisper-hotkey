@@ -4418,11 +4418,11 @@ git commit -m "chore(m10): retire python implementation"
 **Files:**
 - Modify: `README.md`
 
-- [ ] **Step 1: Rewrite for the Tauri app**
+- [x] **Step 1: Rewrite for the Tauri app**
 
 Replace `README.md` content with new install instructions (download .dmg / .exe from Releases), updated screenshots if available, keep the credit to the original `dpejoh/whisper-hotkey` and `lffelgueiras` macOS Python fork, mention the new Windows support.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add README.md
@@ -4584,7 +4584,7 @@ Which approach?
 ## M10 — Retire Python
 
 - [x] **M10.1** Delete Python files
-- [ ] **M10.2** Rewrite `README.md`
+- [x] **M10.2** Rewrite `README.md`
 - [ ] **M10.3** Tag v1.0.0
 
 ## Cross-cutting follow-ups (track separately — not blockers)
