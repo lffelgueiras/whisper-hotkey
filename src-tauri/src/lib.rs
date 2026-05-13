@@ -9,6 +9,7 @@ pub mod logging;
 pub mod models;
 pub mod llm;
 pub mod paste;
+pub mod permissions;
 pub mod replacements;
 pub mod storage;
 
@@ -229,6 +230,8 @@ pub fn run() {
             commands::delete_history_entry,
             commands::clear_history,
             commands::export_history,
+            commands::check_permissions,
+            commands::open_accessibility_panel,
         ])
         .setup(move |app| {
             let app_obj = Arc::new(App {

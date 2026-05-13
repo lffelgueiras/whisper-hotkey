@@ -75,6 +75,16 @@ pub fn clear_history() -> Result<(), AppErrorDto> {
 }
 
 #[tauri::command]
+pub fn check_permissions() -> crate::permissions::PermissionStatus {
+    crate::permissions::check()
+}
+
+#[tauri::command]
+pub fn open_accessibility_panel() -> Result<(), AppErrorDto> {
+    crate::permissions::open_accessibility_settings().map_err(|e| AppError::Storage(e).to_dto())
+}
+
+#[tauri::command]
 pub fn export_history(path: String) -> Result<(), AppErrorDto> {
     let all = history::read_all().map_err(|e| e.to_dto())?;
     let mut md = String::from("# Transcription history\n\n");
