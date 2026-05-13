@@ -4398,14 +4398,14 @@ git commit -m "feat(m9): nsis installer config for windows"
 
 ### Task M10.1: Delete Python files
 
-- [ ] **Step 1: Remove**
+- [x] **Step 1: Remove**
 
 ```bash
 git rm whisper_hotkey.py install.sh launcher.sh build-dmg.sh
 git rm -r pkg/
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git commit -m "chore(m10): retire python implementation"
@@ -4583,7 +4583,7 @@ Which approach?
 
 ## M10 — Retire Python
 
-- [ ] **M10.1** Delete Python files
+- [x] **M10.1** Delete Python files
 - [ ] **M10.2** Rewrite `README.md`
 - [ ] **M10.3** Tag v1.0.0
 
