@@ -4143,7 +4143,7 @@ git commit -m "feat(m7): model download step in onboarding"
 - Create: `src/lib/theme.ts`
 - Modify: `src/main.tsx`, `src/overlay-main.tsx`, `src/history-main.tsx`
 
-- [ ] **Step 1: Theme helper**
+- [x] **Step 1: Theme helper**
 
 ```ts
 // src/lib/theme.ts
@@ -4163,7 +4163,7 @@ export function useApplyTheme() {
 
 Call `useApplyTheme()` once at the top of `App` (settings/onboarding window). For overlay/history, do the same after loading config.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add -A
@@ -4572,7 +4572,7 @@ Which approach?
 
 ## M8 — Polish
 
-- [ ] **M8.1** Apply theme
+- [x] **M8.1** Apply theme
 - [ ] **M8.2** Toast on errors
 - [ ] **M8.3** File-based rotating logs
 
