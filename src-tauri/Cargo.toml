@@ -42,14 +42,17 @@ futures-util = "0.3"
 dirs = "5"
 chrono = "0.4"
 regex = "1"
+async-trait = "0.1"
 tauri-plugin-dialog = "2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 whisper-rs = { version = "0.13", features = ["metal"] }
+llama-cpp-2 = { version = "0.1", features = ["metal"] }
 core-graphics = "0.24"
 core-foundation = "0.10"
 
 [target.'cfg(target_os = "windows")'.dependencies]
 whisper-rs = { version = "0.13", default-features = false }
+llama-cpp-2 = { version = "0.1", default-features = false }
 windows = { version = "0.58", features = ["Win32_UI_Input_KeyboardAndMouse", "Win32_Foundation"] }
 

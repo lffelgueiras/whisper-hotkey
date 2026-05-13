@@ -7,6 +7,7 @@ pub mod events;
 pub mod hotkey;
 pub mod logging;
 pub mod models;
+pub mod llm;
 pub mod paste;
 pub mod replacements;
 pub mod storage;
