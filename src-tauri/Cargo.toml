@@ -32,3 +32,9 @@ cpal = "0.15"
 rubato = "0.15"
 parking_lot = "0.12"
 
+[target.'cfg(target_os = "macos")'.dependencies]
+whisper-rs = { version = "0.13", features = ["metal"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+whisper-rs = { version = "0.13", default-features = false }
+
