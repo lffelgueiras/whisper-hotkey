@@ -27,15 +27,13 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: pwsh scripts/fetch-llama-runtime.ps1
-      - name: Build (macOS)
+      # macOS code signing is disabled. To re-enable, restore the env block
+      # below with APPLE_CERTIFICATE / APPLE_CERTIFICATE_PASSWORD /
+      # APPLE_SIGNING_IDENTITY / APPLE_ID / APPLE_PASSWORD / APPLE_TEAM_ID
+      # from repo secrets (see src-tauri/README.dev.md). Unsigned .dmg
+      # requires right-click -> Open on first launch.
+      - name: Build (macOS, unsigned)
         if: runner.os == 'macOS'
-        env:
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: pnpm tauri build
       - name: Build (Windows)
         if: runner.os == 'Windows'
