@@ -203,7 +203,7 @@ impl App {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    logging::init();
+    let _log_guard = logging::init();
 
     let rt = tokio::runtime::Runtime::new().expect("tokio runtime");
     let (tx, mut rx) = mpsc::unbounded_channel::<()>();
@@ -247,9 +247,10 @@ pub fn run() {
 
             let settings = MenuItemBuilder::with_id("settings", "Settings…").build(app)?;
             let history = MenuItemBuilder::with_id("history", "History…").build(app)?;
+            let logs = MenuItemBuilder::with_id("logs", "Open logs folder").build(app)?;
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
             let menu = MenuBuilder::new(app)
-                .items(&[&settings, &history, &quit])
+                .items(&[&settings, &history, &logs, &quit])
                 .build()?;
             let _tray = TrayIconBuilder::with_id("main")
                 .menu(&menu)
@@ -265,6 +266,18 @@ pub fn run() {
                         if let Some(w) = app.get_webview_window("history") {
                             let _ = w.show();
                             let _ = w.set_focus();
+                        }
+                    }
+                    "logs" => {
+                        let dir = logging::logs_dir();
+                        std::fs::create_dir_all(&dir).ok();
+                        #[cfg(target_os = "macos")]
+                        {
+                            let _ = std::process::Command::new("open").arg(&dir).status();
+                        }
+                        #[cfg(target_os = "windows")]
+                        {
+                            let _ = std::process::Command::new("explorer").arg(&dir).status();
                         }
                     }
                     _ => {}
