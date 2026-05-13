@@ -1,6 +1,8 @@
+mod app_state;
 mod asr;
 mod audio;
 mod error;
+mod hotkey;
 mod logging;
 mod paste;
 
