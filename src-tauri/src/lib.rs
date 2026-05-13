@@ -188,6 +188,8 @@ impl App {
                         }
                         Err(e) => {
                             tracing::error!("pipeline failed: {e}");
+                            use tauri::Emitter;
+                            let _ = me.handle.emit("error", e.to_dto());
                             me.set_state(next(RecordingState::Transcribing, Intent::Failed))
                                 .await;
                         }

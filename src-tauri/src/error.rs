@@ -1,7 +1,7 @@
 use serde::Serialize;
 use thiserror::Error;
 
-#[derive(Debug, Serialize, ts_rs::TS)]
+#[derive(Debug, Clone, Serialize, ts_rs::TS)]
 #[ts(export, export_to = "../src/ipc/generated/")]
 pub enum ErrorKind {
     Mic,
@@ -37,7 +37,7 @@ pub enum AppError {
     Internal(String),
 }
 
-#[derive(Debug, Serialize, ts_rs::TS)]
+#[derive(Debug, Clone, Serialize, ts_rs::TS)]
 #[ts(export, export_to = "../src/ipc/generated/")]
 pub struct AppErrorDto {
     pub kind: ErrorKind,
