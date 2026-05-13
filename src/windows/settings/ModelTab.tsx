@@ -4,6 +4,7 @@ import { listen } from "@tauri-apps/api/event";
 import { useConfigStore } from "@/store/configStore";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 
 interface ModelInfo {
   id: string;
@@ -73,6 +74,51 @@ export function ModelTab() {
             );
           })}
       </ul>
+
+      <div className="flex items-center justify-between mt-6">
+        <Label>Post-processing (LLM)</Label>
+        <Switch
+          checked={config.post_processing_enabled}
+          onCheckedChange={(v) => void update({ post_processing_enabled: v })}
+        />
+      </div>
+      {config.post_processing_enabled && (
+        <>
+          <Label>Post-processing model</Label>
+          <ul className="grid gap-3">
+            {models
+              .filter((m) => m.kind === "llm")
+              .map((m) => {
+                const p = progress[m.id];
+                const active = config.llm_model === m.id;
+                return (
+                  <li
+                    key={m.id}
+                    className="flex items-center justify-between rounded-md border border-border p-3"
+                  >
+                    <div>
+                      <div className="font-medium">{m.display_name}</div>
+                      {p && (
+                        <div className="text-xs text-muted-foreground">
+                          {Math.round((p.downloaded / p.total) * 100)}%
+                        </div>
+                      )}
+                    </div>
+                    <Button
+                      variant={active ? "default" : "outline"}
+                      onClick={() => {
+                        void update({ llm_model: m.id });
+                        void invoke("download_model", { id: m.id });
+                      }}
+                    >
+                      {active ? "Active" : "Use"}
+                    </Button>
+                  </li>
+                );
+              })}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

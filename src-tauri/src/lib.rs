@@ -14,6 +14,7 @@ pub mod storage;
 
 use app_state::{next, Intent, RecordingState};
 use asr::{whisper_cpp::WhisperCpp, Transcriber};
+use llm::{llama_cpp::LlamaPostProcessor, PostProcessor};
 use audio::AudioCapturer;
 use error::AppError;
 use models::{builtin_catalog, download};
@@ -31,6 +32,7 @@ struct App {
     state: Mutex<RecordingState>,
     audio: AudioCapturer,
     asr: Mutex<Option<Arc<dyn Transcriber>>>,
+    llm: Mutex<Option<Arc<dyn PostProcessor>>>,
     paster: Box<dyn Paster>,
     handle: AppHandle,
 }
@@ -60,6 +62,24 @@ impl App {
         let a: Arc<dyn Transcriber> = Arc::new(w);
         *guard = Some(a.clone());
         Ok(a)
+    }
+
+    async fn ensure_llm_loaded(
+        &self,
+        model_id: &str,
+    ) -> Result<Option<Arc<dyn PostProcessor>>, AppError> {
+        let mut guard = self.llm.lock().await;
+        if let Some(a) = guard.as_ref() {
+            return Ok(Some(a.clone()));
+        }
+        let info = builtin_catalog()
+            .into_iter()
+            .find(|m| m.id == model_id)
+            .ok_or_else(|| AppError::Model(format!("unknown llm model {model_id}")))?;
+        let path = download(&info, |d, t| tracing::info!("llm download {d}/{t}")).await?;
+        let pp: Arc<dyn PostProcessor> = Arc::new(LlamaPostProcessor::new(path));
+        *guard = Some(pp.clone());
+        Ok(Some(pp))
     }
 
     async fn handle_toggle(self: Arc<Self>) {
@@ -103,22 +123,53 @@ impl App {
                         })
                         .await
                         .map_err(|e| AppError::Internal(format!("join: {e}")))??;
-                        Ok(replacements::apply(&text, &cfg.replacements))
+                        let text = replacements::apply(&text, &cfg.replacements);
+                        let text = if cfg.post_processing_enabled && !cfg.llm_model.is_empty() {
+                            match me.ensure_llm_loaded(&cfg.llm_model).await {
+                                Ok(Some(pp)) => {
+                                    let to_ms = cfg.llm_timeout_ms;
+                                    match tokio::time::timeout(
+                                        std::time::Duration::from_millis(to_ms),
+                                        pp.refine(&text),
+                                    )
+                                    .await
+                                    {
+                                        Ok(Ok(t)) => t,
+                                        Ok(Err(e)) => {
+                                            tracing::warn!("llm error, falling back: {e}");
+                                            text
+                                        }
+                                        Err(_) => {
+                                            tracing::warn!("llm timeout, falling back");
+                                            text
+                                        }
+                                    }
+                                }
+                                Ok(None) => text,
+                                Err(e) => {
+                                    tracing::warn!("llm load failed: {e}");
+                                    text
+                                }
+                            }
+                        } else {
+                            text
+                        };
+                        Ok(text)
                     }
                     .await;
 
                     match result {
                         Ok(text) if !text.is_empty() => {
-                            let model = {
+                            let (model, post_processed) = {
                                 let cfg_state = me.handle.state::<commands::ConfigState>();
                                 let cfg = cfg_state.0.lock();
-                                cfg.asr_model.clone()
+                                (cfg.asr_model.clone(), cfg.post_processing_enabled)
                             };
                             let entry = storage::history::HistoryEntry {
                                 ts: chrono::Utc::now().to_rfc3339(),
                                 text: text.clone(),
                                 model,
-                                post_processed: false,
+                                post_processed,
                             };
                             if let Err(e) = storage::history::append(&entry) {
                                 tracing::error!("history append failed: {e}");
@@ -184,6 +235,7 @@ pub fn run() {
                 state: Mutex::new(RecordingState::Idle),
                 audio: AudioCapturer::new(),
                 asr: Mutex::new(None),
+                llm: Mutex::new(None),
                 paster: paste::default_paster(),
                 handle: app.handle().clone(),
             });

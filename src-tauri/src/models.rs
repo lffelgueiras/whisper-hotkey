@@ -61,6 +61,14 @@ pub fn builtin_catalog() -> Vec<ModelInfo> {
             size_bytes: 1_080_000_000,
             display_name: "Whisper Large v3 q5_0 (1 GB) — best quality".into(),
         },
+        ModelInfo {
+            id: "gemma-2-2b-it-q4_k_m".into(),
+            kind: ModelKind::Llm,
+            url: "https://huggingface.co/bartowski/gemma-2-2b-it-GGUF/resolve/main/gemma-2-2b-it-Q4_K_M.gguf".into(),
+            sha256: "PLACEHOLDER_FILL_IN".into(),
+            size_bytes: 1_640_000_000,
+            display_name: "Gemma 2 2B Instruct Q4_K_M (1.6 GB)".into(),
+        },
     ]
 }
 
