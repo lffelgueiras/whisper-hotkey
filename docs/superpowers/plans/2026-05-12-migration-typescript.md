@@ -2057,7 +2057,7 @@ git commit -m "docs(m1): developer onboarding guide"
 - Modify: `src-tauri/tauri.conf.json`, `vite.config.ts`, `package.json`
 - Create: `overlay.html`, `src/overlay-main.tsx`
 
-- [ ] **Step 1: Add overlay window config**
+- [x] **Step 1: Add overlay window config**
 
 Edit `src-tauri/tauri.conf.json` `app.windows`:
 ```json
@@ -2085,7 +2085,7 @@ Edit `src-tauri/tauri.conf.json` `app.windows`:
 ]
 ```
 
-- [ ] **Step 2: Create overlay entry**
+- [x] **Step 2: Create overlay entry**
 
 Create `overlay.html`:
 ```html
@@ -2104,7 +2104,7 @@ import { OverlayWindow } from "./windows/overlay/OverlayWindow";
 ReactDOM.createRoot(document.getElementById("overlay-root")!).render(<OverlayWindow />);
 ```
 
-- [ ] **Step 3: Update Vite config for multi-entry**
+- [x] **Step 3: Update Vite config for multi-entry**
 
 Edit `vite.config.ts`:
 ```ts
@@ -2127,7 +2127,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Smoke check**
+- [x] **Step 4: Smoke check**
 
 ```bash
 pnpm tauri dev
@@ -2135,7 +2135,7 @@ pnpm tauri dev
 
 Expected: tray appears; no visible overlay yet (visible=false). No errors.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -2149,7 +2149,7 @@ git commit -m "feat(m2): overlay window scaffolding (transparent, always-on-top,
 **Files:**
 - Create: `src/windows/overlay/OverlayWindow.tsx`, `src/store/recordingStore.ts`, `src/ipc/events.ts`
 
-- [ ] **Step 1: Write store**
+- [x] **Step 1: Write store**
 
 Create `src/store/recordingStore.ts`:
 ```ts
@@ -2172,7 +2172,7 @@ export const useRecordingStore = create<State>((set) => ({
 pnpm add zustand
 ```
 
-- [ ] **Step 2: Write event wrapper**
+- [x] **Step 2: Write event wrapper**
 
 Create `src/ipc/events.ts`:
 ```ts
@@ -2186,7 +2186,7 @@ export async function bindRecordingEvents(): Promise<UnlistenFn> {
 }
 ```
 
-- [ ] **Step 3: Write component**
+- [x] **Step 3: Write component**
 
 Create `src/windows/overlay/OverlayWindow.tsx`:
 ```tsx
@@ -2229,7 +2229,7 @@ export function OverlayWindow() {
 }
 ```
 
-- [ ] **Step 4: Compile + visual check**
+- [x] **Step 4: Compile + visual check**
 
 ```bash
 pnpm tauri dev
@@ -2237,7 +2237,7 @@ pnpm tauri dev
 
 You won't see the overlay yet (no events fired). That's expected.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -2252,7 +2252,7 @@ git commit -m "feat(m2): overlay react component reactive to recordingStore"
 - Create: `src-tauri/src/events.rs`
 - Modify: `src-tauri/src/main.rs`, `src-tauri/src/lib.rs`
 
-- [ ] **Step 1: Implement emitter**
+- [x] **Step 1: Implement emitter**
 
 Create `src-tauri/src/events.rs`:
 ```rust
@@ -2273,7 +2273,7 @@ pub fn emit_state(app: &AppHandle, state: RecordingState) {
 
 Add `pub mod events;` to `lib.rs`.
 
-- [ ] **Step 2: Wire emitter into the state machine**
+- [x] **Step 2: Wire emitter into the state machine**
 
 In `main.rs`, find every place that mutates `self.state` and immediately call `events::emit_state(&app_handle, new_state)`. Easiest: store an `AppHandle` in `App`:
 ```rust
@@ -2288,7 +2288,7 @@ struct App {
 
 After every `*s = new;` or `*self.state.lock().await = ...`, call `events::emit_state(&self.handle, new);`.
 
-- [ ] **Step 3: Smoke run**
+- [x] **Step 3: Smoke run**
 
 ```bash
 pnpm tauri dev
@@ -2296,7 +2296,7 @@ pnpm tauri dev
 
 Press hotkey: overlay appears red. Press again: overlay turns blue (spinner). After transcription pastes, overlay hides.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -2310,7 +2310,7 @@ git commit -m "feat(m2): rust emits state-changed events; overlay reflects in re
 **Files:**
 - Modify: `src/windows/overlay/OverlayWindow.tsx`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Position overlay at top-center on show**
+- [x] **Step 1: Position overlay at top-center on show**
 
 In `main.rs`, after `events::emit_state(handle, RecordingState::Recording)`, also position the overlay window:
 ```rust
@@ -2332,7 +2332,7 @@ if let Some(overlay) = handle.get_webview_window("overlay") {
 
 (Position is currently hardcoded top-center; it becomes configurable in M3.)
 
-- [ ] **Step 2: Smoke**
+- [x] **Step 2: Smoke**
 
 ```bash
 pnpm tauri dev
@@ -2340,7 +2340,7 @@ pnpm tauri dev
 
 Overlay appears at the top of the primary monitor, centered horizontally.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4530,10 +4530,10 @@ Which approach?
 
 ## M2 — Overlay window
 
-- [ ] **M2.1** Multi-window setup in `tauri.conf.json`
-- [ ] **M2.2** OverlayWindow React component with three states
-- [ ] **M2.3** Emit state events from Rust
-- [ ] **M2.4** Overlay position config (read-only for now)
+- [x] **M2.1** Multi-window setup in `tauri.conf.json`
+- [x] **M2.2** OverlayWindow React component with three states
+- [x] **M2.3** Emit state events from Rust
+- [x] **M2.4** Overlay position config (read-only for now)
 
 ## M3 — Settings: General + Model tabs
 
