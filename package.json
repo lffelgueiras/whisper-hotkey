@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "gen-types": "cd src-tauri && cargo test --quiet -- --nocapture export_bindings_"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.8",

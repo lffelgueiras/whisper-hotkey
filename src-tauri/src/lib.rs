@@ -132,17 +132,21 @@ pub fn run() {
     let mut hk = hotkey::HotkeyService::new().expect("hotkey service");
     hk.register(DEFAULT_HOTKEY).expect("register default hotkey");
     hotkey::HotkeyService::start_listener(tx);
+    let hk_state = commands::HotkeyState(std::sync::Arc::new(parking_lot::Mutex::new(hk)));
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .manage(commands::ConfigState(std::sync::Arc::new(
             parking_lot::Mutex::new(storage::config::load()),
         )))
+        .manage(hk_state)
         .invoke_handler(tauri::generate_handler![
             commands::get_config,
             commands::update_config,
             commands::list_models,
             commands::download_model,
+            commands::delete_model,
+            commands::is_model_present,
         ])
         .setup(move |app| {
             let app_obj = Arc::new(App {
@@ -178,7 +182,6 @@ pub fn run() {
             });
 
             app.manage(rt);
-            app.manage(hk);
             Ok(())
         })
         .run(tauri::generate_context!())
