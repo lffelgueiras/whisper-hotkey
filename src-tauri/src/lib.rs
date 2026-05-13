@@ -7,18 +7,129 @@ mod logging;
 mod models;
 mod paste;
 
+use app_state::{next, Intent, RecordingState};
+use asr::{whisper_cpp::WhisperCpp, Transcriber};
+use audio::AudioCapturer;
+use error::AppError;
+use models::{builtin_catalog, download};
+use paste::Paster;
+use std::sync::Arc;
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
 use tauri::tray::TrayIconBuilder;
+use tauri::Manager;
+use tokio::sync::{mpsc, Mutex};
+
+const DEFAULT_HOTKEY: &str = "CmdOrControl+Shift+Space";
+const DEFAULT_MODEL_ID: &str = "whisper-base";
+
+struct App {
+    state: Mutex<RecordingState>,
+    audio: AudioCapturer,
+    asr: Mutex<Option<Arc<dyn Transcriber>>>,
+    paster: Box<dyn Paster>,
+}
+
+impl App {
+    async fn ensure_asr_loaded(&self) -> Result<Arc<dyn Transcriber>, AppError> {
+        let mut guard = self.asr.lock().await;
+        if let Some(a) = guard.as_ref() {
+            return Ok(a.clone());
+        }
+        let info = builtin_catalog()
+            .into_iter()
+            .find(|m| m.id == DEFAULT_MODEL_ID)
+            .ok_or_else(|| AppError::Model("default model missing from catalog".into()))?;
+        let path = download(&info, |d, t| {
+            tracing::info!("download {d}/{t}");
+        })
+        .await?;
+        let w = WhisperCpp::load(&path)?;
+        let a: Arc<dyn Transcriber> = Arc::new(w);
+        *guard = Some(a.clone());
+        Ok(a)
+    }
+
+    async fn handle_toggle(self: Arc<Self>) {
+        let mut s = self.state.lock().await;
+        let new = next(*s, Intent::Toggle);
+        let prev = *s;
+        *s = new;
+        drop(s);
+        tracing::info!("state: {:?} -> {:?}", prev, new);
+
+        match (prev, new) {
+            (RecordingState::Idle, RecordingState::Recording) => {
+                if let Err(e) = self.audio.start() {
+                    tracing::error!("audio start failed: {e}");
+                    *self.state.lock().await = RecordingState::Idle;
+                }
+            }
+            (RecordingState::Recording, RecordingState::Transcribing) => {
+                let me = self.clone();
+                tokio::spawn(async move {
+                    let result: Result<String, AppError> = async {
+                        let samples = me.audio.stop()?;
+                        if samples.is_empty() {
+                            return Ok(String::new());
+                        }
+                        let asr = me.ensure_asr_loaded().await?;
+                        let samples_clone = samples.clone();
+                        let asr_clone = asr.clone();
+                        let text = tokio::task::spawn_blocking(move || {
+                            asr_clone.transcribe(&samples_clone, &[])
+                        })
+                        .await
+                        .map_err(|e| AppError::Internal(format!("join: {e}")))??;
+                        Ok(text)
+                    }
+                    .await;
+
+                    match result {
+                        Ok(text) if !text.is_empty() => {
+                            if let Err(e) = me.paster.paste(&text) {
+                                tracing::error!("paste failed: {e}");
+                            }
+                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Done);
+                        }
+                        Ok(_) => {
+                            tracing::info!("empty transcription");
+                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Done);
+                        }
+                        Err(e) => {
+                            tracing::error!("pipeline failed: {e}");
+                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Failed);
+                        }
+                    }
+                });
+            }
+            _ => {}
+        }
+    }
+}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     logging::init();
+
+    let rt = tokio::runtime::Runtime::new().expect("tokio runtime");
+    let (tx, mut rx) = mpsc::unbounded_channel::<()>();
+
+    let mut hk = hotkey::HotkeyService::new().expect("hotkey service");
+    hk.register(DEFAULT_HOTKEY).expect("register default hotkey");
+    hotkey::HotkeyService::start_listener(tx);
+
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .setup(|app| {
+        .setup(move |app| {
+            let app_obj = Arc::new(App {
+                state: Mutex::new(RecordingState::Idle),
+                audio: AudioCapturer::new(),
+                asr: Mutex::new(None),
+                paster: paste::default_paster(),
+            });
+
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
             let menu = MenuBuilder::new(app).items(&[&quit]).build()?;
-
             let _tray = TrayIconBuilder::with_id("main")
                 .menu(&menu)
                 .on_menu_event(|app, event| {
@@ -27,6 +138,16 @@ pub fn run() {
                     }
                 })
                 .build(app)?;
+
+            let app_for_loop = app_obj.clone();
+            rt.spawn(async move {
+                while rx.recv().await.is_some() {
+                    app_for_loop.clone().handle_toggle().await;
+                }
+            });
+
+            app.manage(rt);
+            app.manage(hk);
             Ok(())
         })
         .run(tauri::generate_context!())

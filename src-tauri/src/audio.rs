@@ -35,6 +35,13 @@ pub struct AudioCapturer {
     channels: Arc<Mutex<u16>>,
 }
 
+// SAFETY: cpal::Stream contains platform handles that are not auto-Send/Sync,
+// but in our design start()/stop() are called from a single tokio task and the
+// stream's callback runs on cpal's dedicated audio thread. We never share the
+// stream across threads concurrently.
+unsafe impl Send for AudioCapturer {}
+unsafe impl Sync for AudioCapturer {}
+
 impl AudioCapturer {
     pub fn new() -> Self {
         Self {
