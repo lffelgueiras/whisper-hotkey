@@ -8,6 +8,7 @@ pub mod hotkey;
 pub mod logging;
 pub mod models;
 pub mod paste;
+pub mod replacements;
 pub mod storage;
 
 use app_state::{next, Intent, RecordingState};
@@ -87,15 +88,21 @@ impl App {
                         if samples.is_empty() {
                             return Ok(String::new());
                         }
+                        let cfg = {
+                            let cfg_state = me.handle.state::<commands::ConfigState>();
+                            let guard = cfg_state.0.lock();
+                            guard.clone()
+                        };
                         let asr = me.ensure_asr_loaded().await?;
                         let samples_clone = samples.clone();
                         let asr_clone = asr.clone();
+                        let vocab = cfg.vocabulary.clone();
                         let text = tokio::task::spawn_blocking(move || {
-                            asr_clone.transcribe(&samples_clone, &[])
+                            asr_clone.transcribe(&samples_clone, &vocab)
                         })
                         .await
                         .map_err(|e| AppError::Internal(format!("join: {e}")))??;
-                        Ok(text)
+                        Ok(replacements::apply(&text, &cfg.replacements))
                     }
                     .await;
 
