@@ -3200,7 +3200,7 @@ git commit -m "feat(m4): history storage in jsonl with append/read/delete"
 **Files:**
 - Modify: `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Hook into pipeline**
+- [x] **Step 1: Hook into pipeline**
 
 In the pipeline success branch (after `text` is computed, before paste):
 ```rust
@@ -3215,7 +3215,7 @@ let _ = whisper_hotkey::storage::history::append(&entry);
 
 Add `chrono = "0.4"` to `Cargo.toml`.
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add -A
@@ -4549,7 +4549,7 @@ Which approach?
 ## M4 — History
 
 - [x] **M4.1** History storage
-- [ ] **M4.2** Append history during pipeline
+- [x] **M4.2** Append history during pipeline
 - [ ] **M4.3** History commands + window
 
 ## M5 — Vocabulary + Replacements
