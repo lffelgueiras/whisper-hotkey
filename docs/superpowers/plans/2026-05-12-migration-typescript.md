@@ -3822,7 +3822,7 @@ git commit -m "feat(m6): optional llm post-processing wired into pipeline with t
 - Modify: `src-tauri/tauri.conf.json`, `src-tauri/src/main.rs`
 - Create: `src/windows/onboarding/OnboardingWindow.tsx`, `src/windows/onboarding/steps/WelcomeStep.tsx`, `src/windows/onboarding/steps/PermissionsStep.tsx`, `src/windows/onboarding/steps/ModelDownloadStep.tsx`
 
-- [ ] **Step 1: Reuse main window for onboarding**
+- [x] **Step 1: Reuse main window for onboarding**
 
 Onboarding lives in the main window. In `App.tsx`, check `config.onboarding_complete` (add this field to `Config` default `false`):
 ```tsx
@@ -3841,11 +3841,11 @@ export default function App() {
 
 Add field to `Config` (Rust + TS), default false.
 
-- [ ] **Step 2: First-run logic**
+- [x] **Step 2: First-run logic**
 
 In `main.rs` `setup`, after loading config: if `!cfg.onboarding_complete`, show the main window automatically. Otherwise leave it hidden.
 
-- [ ] **Step 3: Welcome step**
+- [x] **Step 3: Welcome step**
 
 Create `src/windows/onboarding/steps/WelcomeStep.tsx`:
 ```tsx
@@ -3864,7 +3864,7 @@ export function WelcomeStep({ onNext }: { onNext: () => void }) {
 }
 ```
 
-- [ ] **Step 4: Container**
+- [x] **Step 4: Container**
 
 Create `src/windows/onboarding/OnboardingWindow.tsx`:
 ```tsx
@@ -3892,7 +3892,7 @@ export function OnboardingWindow() {
 }
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4565,7 +4565,7 @@ Which approach?
 
 ## M7 — Onboarding + Permissions
 
-- [ ] **M7.1** Onboarding window scaffolding
+- [x] **M7.1** Onboarding window scaffolding
 - [ ] **M7.2** Permission helpers
 - [ ] **M7.3** Permissions step UI
 - [ ] **M7.4** Model download step
