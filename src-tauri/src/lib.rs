@@ -2,6 +2,7 @@ pub mod app_state;
 pub mod asr;
 pub mod audio;
 pub mod error;
+pub mod events;
 pub mod hotkey;
 pub mod logging;
 pub mod models;
@@ -16,7 +17,7 @@ use paste::Paster;
 use std::sync::Arc;
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
 use tauri::tray::TrayIconBuilder;
-use tauri::Manager;
+use tauri::{AppHandle, Manager};
 use tokio::sync::{mpsc, Mutex};
 
 const DEFAULT_HOTKEY: &str = "CmdOrControl+Shift+Space";
@@ -27,6 +28,14 @@ struct App {
     audio: AudioCapturer,
     asr: Mutex<Option<Arc<dyn Transcriber>>>,
     paster: Box<dyn Paster>,
+    handle: AppHandle,
+}
+
+impl App {
+    async fn set_state(&self, new: RecordingState) {
+        *self.state.lock().await = new;
+        events::emit_state(&self.handle, new);
+    }
 }
 
 impl App {
@@ -50,18 +59,22 @@ impl App {
     }
 
     async fn handle_toggle(self: Arc<Self>) {
-        let mut s = self.state.lock().await;
-        let new = next(*s, Intent::Toggle);
-        let prev = *s;
-        *s = new;
-        drop(s);
-        tracing::info!("state: {:?} -> {:?}", prev, new);
+        let prev = {
+            let mut s = self.state.lock().await;
+            let new = next(*s, Intent::Toggle);
+            let prev = *s;
+            *s = new;
+            tracing::info!("state: {:?} -> {:?}", prev, new);
+            prev
+        };
+        let new = next(prev, Intent::Toggle);
+        events::emit_state(&self.handle, new);
 
         match (prev, new) {
             (RecordingState::Idle, RecordingState::Recording) => {
                 if let Err(e) = self.audio.start() {
                     tracing::error!("audio start failed: {e}");
-                    *self.state.lock().await = RecordingState::Idle;
+                    self.set_state(RecordingState::Idle).await;
                 }
             }
             (RecordingState::Recording, RecordingState::Transcribing) => {
@@ -89,15 +102,15 @@ impl App {
                             if let Err(e) = me.paster.paste(&text) {
                                 tracing::error!("paste failed: {e}");
                             }
-                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Done);
+                            me.set_state(next(RecordingState::Transcribing, Intent::Done)).await;
                         }
                         Ok(_) => {
                             tracing::info!("empty transcription");
-                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Done);
+                            me.set_state(next(RecordingState::Transcribing, Intent::Done)).await;
                         }
                         Err(e) => {
                             tracing::error!("pipeline failed: {e}");
-                            *me.state.lock().await = next(RecordingState::Transcribing, Intent::Failed);
+                            me.set_state(next(RecordingState::Transcribing, Intent::Failed)).await;
                         }
                     }
                 });
@@ -126,6 +139,7 @@ pub fn run() {
                 audio: AudioCapturer::new(),
                 asr: Mutex::new(None),
                 paster: paste::default_paster(),
+                handle: app.handle().clone(),
             });
 
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;

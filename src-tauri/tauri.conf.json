@@ -26,6 +26,21 @@
         "visible": false,
         "decorations": true,
         "resizable": true
+      },
+      {
+        "label": "overlay",
+        "url": "overlay.html",
+        "width": 140,
+        "height": 48,
+        "visible": false,
+        "decorations": false,
+        "resizable": false,
+        "transparent": true,
+        "alwaysOnTop": true,
+        "skipTaskbar": true,
+        "focus": false,
+        "shadow": false,
+        "acceptFirstMouse": false
       }
     ],
     "security": {
