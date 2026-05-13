@@ -3488,7 +3488,7 @@ git commit -m "feat(m5): replacements engine — literal + regex, applied in pip
 **Files:**
 - Create: `src/windows/settings/VocabularyTab.tsx`, `src/components/ReplacementEditor.tsx`
 
-- [ ] **Step 1: Tab**
+- [x] **Step 1: Tab**
 
 Create `src/windows/settings/VocabularyTab.tsx`:
 ```tsx
@@ -3544,7 +3544,7 @@ export function VocabularyTab() {
 }
 ```
 
-- [ ] **Step 2: ReplacementEditor**
+- [x] **Step 2: ReplacementEditor**
 
 Create `src/components/ReplacementEditor.tsx`:
 ```tsx
@@ -3584,15 +3584,15 @@ export function ReplacementEditor({ rules, onChange }: Props) {
 }
 ```
 
-- [ ] **Step 3: Enable the tab**
+- [x] **Step 3: Enable the tab**
 
 In `SettingsWindow.tsx` remove `disabled` from `<TabsTrigger value="vocabulary">` and add `<TabsContent value="vocabulary"><VocabularyTab /></TabsContent>`.
 
-- [ ] **Step 4: Smoke**
+- [x] **Step 4: Smoke**
 
 Add `Ploomes` to vocab and a `mail → email` rule. Transcribe a sentence with both. Verify substitutions and that whisper gets the prompt (check debug logs).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4555,7 +4555,7 @@ Which approach?
 ## M5 — Vocabulary + Replacements
 
 - [x] **M5.1** Replacements engine
-- [ ] **M5.2** Vocabulary tab UI
+- [x] **M5.2** Vocabulary tab UI
 
 ## M6 — LLM post-processing
 
