@@ -41,6 +41,14 @@
         "focus": false,
         "shadow": false,
         "acceptFirstMouse": false
+      },
+      {
+        "label": "history",
+        "url": "history.html",
+        "title": "History",
+        "width": 500,
+        "height": 700,
+        "visible": false
       }
     ],
     "security": {

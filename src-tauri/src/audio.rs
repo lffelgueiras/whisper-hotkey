@@ -85,10 +85,16 @@ impl AudioCapturer {
                 move |err| tracing::error!("audio stream err: {err}"),
                 None,
             ),
-            other => return Err(AppError::Mic(format!("unsupported sample format: {other:?}"))),
+            other => {
+                return Err(AppError::Mic(format!(
+                    "unsupported sample format: {other:?}"
+                )))
+            }
         }
         .map_err(|e| AppError::Mic(format!("build stream: {e}")))?;
-        stream.play().map_err(|e| AppError::Mic(format!("play: {e}")))?;
+        stream
+            .play()
+            .map_err(|e| AppError::Mic(format!("play: {e}")))?;
         *self.stream.lock() = Some(stream);
         Ok(())
     }

@@ -8,13 +8,15 @@ const KEY_V: CGKeyCode = 9;
 pub struct MacPaster;
 
 impl MacPaster {
-    pub fn new() -> Self { Self }
+    pub fn new() -> Self {
+        Self
+    }
 }
 
 impl Paster for MacPaster {
     fn paste(&self, text: &str) -> Result<(), AppError> {
-        let mut cb = arboard::Clipboard::new()
-            .map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
+        let mut cb =
+            arboard::Clipboard::new().map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
         cb.set_text(text.to_string())
             .map_err(|e| AppError::Paste(format!("set clipboard: {e}")))?;
         let src = CGEventSource::new(CGEventSourceStateID::HIDSystemState)

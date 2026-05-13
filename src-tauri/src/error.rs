@@ -58,7 +58,11 @@ impl AppError {
             AppError::Permission(_) => (ErrorKind::Permission, true),
             AppError::Internal(_) => (ErrorKind::Internal, false),
         };
-        AppErrorDto { kind, message: self.to_string(), recoverable }
+        AppErrorDto {
+            kind,
+            message: self.to_string(),
+            recoverable,
+        }
     }
 }
 

@@ -1,14 +1,14 @@
 pub mod app_state;
 pub mod asr;
-pub mod commands;
-pub mod storage;
 pub mod audio;
+pub mod commands;
 pub mod error;
 pub mod events;
 pub mod hotkey;
 pub mod logging;
 pub mod models;
 pub mod paste;
+pub mod storage;
 
 use app_state::{next, Intent, RecordingState};
 use asr::{whisper_cpp::WhisperCpp, Transcriber};
@@ -118,15 +118,18 @@ impl App {
                             if let Err(e) = me.paster.paste(&text) {
                                 tracing::error!("paste failed: {e}");
                             }
-                            me.set_state(next(RecordingState::Transcribing, Intent::Done)).await;
+                            me.set_state(next(RecordingState::Transcribing, Intent::Done))
+                                .await;
                         }
                         Ok(_) => {
                             tracing::info!("empty transcription");
-                            me.set_state(next(RecordingState::Transcribing, Intent::Done)).await;
+                            me.set_state(next(RecordingState::Transcribing, Intent::Done))
+                                .await;
                         }
                         Err(e) => {
                             tracing::error!("pipeline failed: {e}");
-                            me.set_state(next(RecordingState::Transcribing, Intent::Failed)).await;
+                            me.set_state(next(RecordingState::Transcribing, Intent::Failed))
+                                .await;
                         }
                     }
                 });
@@ -144,11 +147,13 @@ pub fn run() {
     let (tx, mut rx) = mpsc::unbounded_channel::<()>();
 
     let mut hk = hotkey::HotkeyService::new().expect("hotkey service");
-    hk.register(DEFAULT_HOTKEY).expect("register default hotkey");
+    hk.register(DEFAULT_HOTKEY)
+        .expect("register default hotkey");
     hotkey::HotkeyService::start_listener(tx);
     let hk_state = commands::HotkeyState(std::sync::Arc::new(parking_lot::Mutex::new(hk)));
 
     tauri::Builder::default()
+        .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .manage(commands::ConfigState(std::sync::Arc::new(
             parking_lot::Mutex::new(storage::config::load()),
@@ -161,6 +166,10 @@ pub fn run() {
             commands::download_model,
             commands::delete_model,
             commands::is_model_present,
+            commands::get_history,
+            commands::delete_history_entry,
+            commands::clear_history,
+            commands::export_history,
         ])
         .setup(move |app| {
             let app_obj = Arc::new(App {
@@ -172,14 +181,23 @@ pub fn run() {
             });
 
             let settings = MenuItemBuilder::with_id("settings", "Settings…").build(app)?;
+            let history = MenuItemBuilder::with_id("history", "History…").build(app)?;
             let quit = MenuItemBuilder::with_id("quit", "Quit").build(app)?;
-            let menu = MenuBuilder::new(app).items(&[&settings, &quit]).build()?;
+            let menu = MenuBuilder::new(app)
+                .items(&[&settings, &history, &quit])
+                .build()?;
             let _tray = TrayIconBuilder::with_id("main")
                 .menu(&menu)
                 .on_menu_event(|app, event| match event.id().as_ref() {
                     "quit" => app.exit(0),
                     "settings" => {
                         if let Some(w) = app.get_webview_window("main") {
+                            let _ = w.show();
+                            let _ = w.set_focus();
+                        }
+                    }
+                    "history" => {
+                        if let Some(w) = app.get_webview_window("history") {
                             let _ = w.show();
                             let _ = w.set_focus();
                         }

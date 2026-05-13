@@ -12,7 +12,10 @@ impl HotkeyService {
     pub fn new() -> Result<Self, AppError> {
         let manager = GlobalHotKeyManager::new()
             .map_err(|e| AppError::Hotkey(format!("manager init: {e}")))?;
-        Ok(Self { manager, current: None })
+        Ok(Self {
+            manager,
+            current: None,
+        })
     }
 
     pub fn register(&mut self, accelerator: &str) -> Result<(), AppError> {

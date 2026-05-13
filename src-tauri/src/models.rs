@@ -55,7 +55,8 @@ pub fn builtin_catalog() -> Vec<ModelInfo> {
         ModelInfo {
             id: "whisper-large-v3-q5_0".into(),
             kind: ModelKind::Asr,
-            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-q5_0.bin".into(),
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-q5_0.bin"
+                .into(),
             sha256: "e6d2a1c6f4b8d1c2b4a8c1d2e3f4a5b6c7d8e9f0".into(),
             size_bytes: 1_080_000_000,
             display_name: "Whisper Large v3 q5_0 (1 GB) — best quality".into(),
@@ -73,7 +74,11 @@ where
     }
     tokio::fs::create_dir_all(target.parent().unwrap()).await?;
     let tmp = target.with_extension("part");
-    let existing = tokio::fs::metadata(&tmp).await.ok().map(|m| m.len()).unwrap_or(0);
+    let existing = tokio::fs::metadata(&tmp)
+        .await
+        .ok()
+        .map(|m| m.len())
+        .unwrap_or(0);
 
     let client = reqwest::Client::new();
     let mut req = client.get(&info.url);

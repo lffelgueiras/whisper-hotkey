@@ -22,7 +22,10 @@ pub fn append(entry: &HistoryEntry) -> Result<(), AppError> {
     if let Some(parent) = p.parent() {
         std::fs::create_dir_all(parent)?;
     }
-    let mut f = std::fs::OpenOptions::new().create(true).append(true).open(&p)?;
+    let mut f = std::fs::OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(&p)?;
     writeln!(
         f,
         "{}",
@@ -89,6 +92,9 @@ mod tests {
         let all = read_all().unwrap();
         assert!(all.iter().any(|x| x.text == "hi"));
         delete_by_ts("2026-01-01T00:00:00Z").unwrap();
-        assert!(read_all().unwrap().iter().all(|x| x.ts != "2026-01-01T00:00:00Z"));
+        assert!(read_all()
+            .unwrap()
+            .iter()
+            .all(|x| x.ts != "2026-01-01T00:00:00Z"));
     }
 }

@@ -35,22 +35,37 @@ mod tests {
 
     #[test]
     fn idle_to_recording_on_toggle() {
-        assert_eq!(next(RecordingState::Idle, Intent::Toggle), RecordingState::Recording);
+        assert_eq!(
+            next(RecordingState::Idle, Intent::Toggle),
+            RecordingState::Recording
+        );
     }
 
     #[test]
     fn recording_to_transcribing_on_toggle() {
-        assert_eq!(next(RecordingState::Recording, Intent::Toggle), RecordingState::Transcribing);
+        assert_eq!(
+            next(RecordingState::Recording, Intent::Toggle),
+            RecordingState::Transcribing
+        );
     }
 
     #[test]
     fn toggle_during_transcription_is_ignored() {
-        assert_eq!(next(RecordingState::Transcribing, Intent::Toggle), RecordingState::Transcribing);
+        assert_eq!(
+            next(RecordingState::Transcribing, Intent::Toggle),
+            RecordingState::Transcribing
+        );
     }
 
     #[test]
     fn done_returns_to_idle() {
-        assert_eq!(next(RecordingState::Transcribing, Intent::Done), RecordingState::Idle);
-        assert_eq!(next(RecordingState::Transcribing, Intent::Failed), RecordingState::Idle);
+        assert_eq!(
+            next(RecordingState::Transcribing, Intent::Done),
+            RecordingState::Idle
+        );
+        assert_eq!(
+            next(RecordingState::Transcribing, Intent::Failed),
+            RecordingState::Idle
+        );
     }
 }

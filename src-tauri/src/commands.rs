@@ -1,6 +1,7 @@
 use crate::error::{AppError, AppErrorDto};
 use crate::models::{builtin_catalog, download, ModelInfo};
 use crate::storage::config::{self, Config};
+use crate::storage::history::{self, HistoryEntry};
 use parking_lot::Mutex as PMutex;
 use serde::Serialize;
 use std::sync::Arc;
@@ -22,7 +23,8 @@ pub fn update_config(
 ) -> Result<Config, AppErrorDto> {
     let mut cfg = state.0.lock();
     let prev_hotkey = cfg.hotkey.clone();
-    let mut v = serde_json::to_value(&*cfg).map_err(|e| AppError::Internal(e.to_string()).to_dto())?;
+    let mut v =
+        serde_json::to_value(&*cfg).map_err(|e| AppError::Internal(e.to_string()).to_dto())?;
     if let (Some(obj), Some(p)) = (v.as_object_mut(), patch.as_object()) {
         for (k, val) in p {
             obj.insert(k.clone(), val.clone());
@@ -55,6 +57,31 @@ pub fn is_model_present(id: String) -> bool {
 #[tauri::command]
 pub fn list_models() -> Vec<ModelInfo> {
     builtin_catalog()
+}
+
+#[tauri::command]
+pub fn get_history() -> Result<Vec<HistoryEntry>, AppErrorDto> {
+    history::read_all().map_err(|e| e.to_dto())
+}
+
+#[tauri::command]
+pub fn delete_history_entry(ts: String) -> Result<(), AppErrorDto> {
+    history::delete_by_ts(&ts).map_err(|e| e.to_dto())
+}
+
+#[tauri::command]
+pub fn clear_history() -> Result<(), AppErrorDto> {
+    history::clear().map_err(|e| e.to_dto())
+}
+
+#[tauri::command]
+pub fn export_history(path: String) -> Result<(), AppErrorDto> {
+    let all = history::read_all().map_err(|e| e.to_dto())?;
+    let mut md = String::from("# Transcription history\n\n");
+    for e in all {
+        md.push_str(&format!("## {}\n\n{}\n\n", e.ts, e.text));
+    }
+    std::fs::write(path, md).map_err(|e| AppError::Storage(e).to_dto())
 }
 
 #[derive(Serialize, Clone)]

@@ -8,12 +8,16 @@ use windows::Win32::UI::Input::KeyboardAndMouse::{
 pub struct WinPaster;
 
 impl WinPaster {
-    pub fn new() -> Self { Self }
+    pub fn new() -> Self {
+        Self
+    }
 }
 
 fn key_event(vk: VIRTUAL_KEY, up: bool) -> INPUT {
     let mut flags = KEYBD_EVENT_FLAGS(0);
-    if up { flags |= KEYEVENTF_KEYUP; }
+    if up {
+        flags |= KEYEVENTF_KEYUP;
+    }
     INPUT {
         r#type: INPUT_KEYBOARD,
         Anonymous: INPUT_0 {
@@ -30,8 +34,8 @@ fn key_event(vk: VIRTUAL_KEY, up: bool) -> INPUT {
 
 impl Paster for WinPaster {
     fn paste(&self, text: &str) -> Result<(), AppError> {
-        let mut cb = arboard::Clipboard::new()
-            .map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
+        let mut cb =
+            arboard::Clipboard::new().map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
         cb.set_text(text.to_string())
             .map_err(|e| AppError::Paste(format!("set clipboard: {e}")))?;
         let inputs = [
