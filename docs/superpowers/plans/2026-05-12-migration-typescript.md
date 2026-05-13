@@ -4076,7 +4076,7 @@ git commit -m "feat(m7): permissions step with live status polling and deep-link
 **Files:**
 - Create: `src/windows/onboarding/steps/ModelDownloadStep.tsx`
 
-- [ ] **Step 1: Component**
+- [x] **Step 1: Component**
 
 ```tsx
 import { useEffect, useState } from "react";
@@ -4118,11 +4118,11 @@ export function ModelDownloadStep({ onDone }: { onDone: () => void }) {
 }
 ```
 
-- [ ] **Step 2: Smoke**
+- [x] **Step 2: Smoke**
 
 Walk through full onboarding from a fresh data dir.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4568,7 +4568,7 @@ Which approach?
 - [x] **M7.1** Onboarding window scaffolding
 - [x] **M7.2** Permission helpers
 - [x] **M7.3** Permissions step UI
-- [ ] **M7.4** Model download step
+- [x] **M7.4** Model download step
 
 ## M8 — Polish
 
