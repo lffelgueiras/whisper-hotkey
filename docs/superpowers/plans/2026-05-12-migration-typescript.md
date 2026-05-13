@@ -1124,7 +1124,7 @@ git commit -m "feat(m1): Transcriber trait + whisper.cpp impl (metal on mac, cpu
 - Create: `src-tauri/src/paste/mod.rs`, `src-tauri/src/paste/macos.rs`
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Add deps**
+- [x] **Step 1: Add deps**
 
 Append to `src-tauri/Cargo.toml`:
 ```toml
@@ -1135,7 +1135,7 @@ core-graphics = "0.24"
 core-foundation = "0.10"
 ```
 
-- [ ] **Step 2: Define the trait**
+- [x] **Step 2: Define the trait**
 
 Create `src-tauri/src/paste/mod.rs`:
 ```rust
@@ -1161,7 +1161,7 @@ pub fn default_paster() -> Box<dyn Paster> {
 }
 ```
 
-- [ ] **Step 3: Implement macOS paste**
+- [x] **Step 3: Implement macOS paste**
 
 Create `src-tauri/src/paste/macos.rs`:
 ```rust
@@ -1199,7 +1199,7 @@ impl Paster for MacPaster {
 }
 ```
 
-- [ ] **Step 4: Stub Windows paste so the code compiles cross-platform**
+- [x] **Step 4: Stub Windows paste so the code compiles cross-platform**
 
 Create `src-tauri/src/paste/windows.rs`:
 ```rust
@@ -1219,9 +1219,9 @@ impl Paster for WinPaster {
 }
 ```
 
-- [ ] **Step 5: Add `mod paste;` to main.rs**
+- [x] **Step 5: Add `mod paste;` to main.rs**
 
-- [ ] **Step 6: Compile check**
+- [x] **Step 6: Compile check**
 
 ```bash
 cd src-tauri && cargo check
@@ -1229,7 +1229,7 @@ cd src-tauri && cargo check
 
 Expected: clean compile on whichever platform you're on.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
@@ -1243,7 +1243,7 @@ git commit -m "feat(m1): paste module — macos cmd+v via CGEvent, win stubbed"
 **Files:**
 - Modify: `src-tauri/src/paste/windows.rs`, `src-tauri/Cargo.toml`
 
-- [ ] **Step 1: Add windows crate**
+- [x] **Step 1: Add windows crate**
 
 Append to `src-tauri/Cargo.toml`:
 ```toml
@@ -1251,7 +1251,7 @@ Append to `src-tauri/Cargo.toml`:
 windows = { version = "0.58", features = ["Win32_UI_Input_KeyboardAndMouse", "Win32_Foundation"] }
 ```
 
-- [ ] **Step 2: Implement Windows paste**
+- [x] **Step 2: Implement Windows paste**
 
 Replace `src-tauri/src/paste/windows.rs`:
 ```rust
@@ -1309,7 +1309,7 @@ impl Paster for WinPaster {
 }
 ```
 
-- [ ] **Step 3: Compile check on Windows runner**
+- [x] **Step 3: Compile check on Windows runner**
 
 (If developing on macOS, push and let CI verify.)
 
@@ -1318,7 +1318,7 @@ cd src-tauri && cargo check --target x86_64-pc-windows-msvc
 ```
 or rely on CI.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4519,8 +4519,8 @@ Which approach?
 - [x] **M1.2** Audio capture module — start/stop/get-samples
 - [x] **M1.3** Vocabulary builder
 - [x] **M1.4** `Transcriber` trait + whisper.cpp implementation
-- [ ] **M1.5** Paste module — macOS
-- [ ] **M1.6** Paste module — Windows
+- [x] **M1.5** Paste module — macOS
+- [x] **M1.6** Paste module — Windows
 - [ ] **M1.7** State machine actor
 - [ ] **M1.8** Global hotkey wiring
 - [ ] **M1.9** Model bootstrap — download whisper-tiny on first run
