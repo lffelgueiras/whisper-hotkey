@@ -62,14 +62,11 @@
     "macOS": {
       "frameworks": [],
       "minimumSystemVersion": "12.0",
-      "exceptionDomain": "",
       "entitlements": "entitlements.plist"
     },
     "windows": {
-      "wix": null,
       "nsis": {
         "installerIcon": "icons/icon.ico",
-        "license": "../LICENSE",
         "displayLanguageSelector": false
       }
     },
