@@ -101,6 +101,20 @@ impl App {
 
                     match result {
                         Ok(text) if !text.is_empty() => {
+                            let model = {
+                                let cfg_state = me.handle.state::<commands::ConfigState>();
+                                let cfg = cfg_state.0.lock();
+                                cfg.asr_model.clone()
+                            };
+                            let entry = storage::history::HistoryEntry {
+                                ts: chrono::Utc::now().to_rfc3339(),
+                                text: text.clone(),
+                                model,
+                                post_processed: false,
+                            };
+                            if let Err(e) = storage::history::append(&entry) {
+                                tracing::error!("history append failed: {e}");
+                            }
                             if let Err(e) = me.paster.paste(&text) {
                                 tracing::error!("paste failed: {e}");
                             }
