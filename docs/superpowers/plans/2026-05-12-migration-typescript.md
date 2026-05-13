@@ -3693,17 +3693,17 @@ git commit -m "feat(m6): PostProcessor trait + llama_cpp scaffold (impl pending 
 **Files:**
 - Modify: `src-tauri/src/llm/llama_cpp.rs`
 
-- [ ] **Step 1: Read current llama-cpp-2 docs**
+- [x] **Step 1: Read current llama-cpp-2 docs**
 
 Open https://docs.rs/llama-cpp-2/latest/llama_cpp_2/ . Note the entry-point types (e.g. `LlamaBackend`, `LlamaModel`, `LlamaSession`).
 
-- [ ] **Step 2: Implement load + generate**
+- [x] **Step 2: Implement load + generate**
 
 Replace the `TODO(M6)` block with code following the crate's hello-world example, parameterized by `model_path`. Cache the loaded model in `Mutex<Option<...>>` inside `LlamaPostProcessor`. Implement stop-tokens to halt at newline.
 
 (Exact code depends on the API at the time of implementation; this plan deliberately doesn't pin it.)
 
-- [ ] **Step 3: Add unit test (mocked)**
+- [x] **Step 3: Add unit test (mocked)**
 
 Add to `llm/mod.rs`:
 ```rust
@@ -3723,7 +3723,7 @@ mod tests {
 }
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4560,7 +4560,7 @@ Which approach?
 ## M6 — LLM post-processing
 
 - [x] **M6.1** `PostProcessor` trait + llama-cpp scaffold
-- [ ] **M6.2** Concrete llama-cpp integration
+- [x] **M6.2** Concrete llama-cpp integration
 - [ ] **M6.3** Wire post-processing into pipeline
 
 ## M7 — Onboarding + Permissions
