@@ -1333,7 +1333,7 @@ git commit -m "feat(m1): windows paste via SendInput (ctrl+v)"
 - Create: `src-tauri/src/app_state.rs`
 - Modify: `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Write tests**
+- [x] **Step 1: Write tests**
 
 Create `src-tauri/src/app_state.rs`:
 ```rust
@@ -1395,7 +1395,7 @@ mod tests {
 }
 ```
 
-- [ ] **Step 2: Run tests**
+- [x] **Step 2: Run tests**
 
 ```bash
 cd src-tauri && cargo test app_state::
@@ -1403,11 +1403,11 @@ cd src-tauri && cargo test app_state::
 
 Expected: 4 passed.
 
-- [ ] **Step 3: Wire module**
+- [x] **Step 3: Wire module**
 
 Add `mod app_state;` to `main.rs`.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -1422,14 +1422,14 @@ git commit -m "feat(m1): state machine for recording lifecycle"
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/main.rs`
 - Create: `src-tauri/src/hotkey.rs`
 
-- [ ] **Step 1: Add crate**
+- [x] **Step 1: Add crate**
 
 Append:
 ```toml
 global-hotkey = "0.6"
 ```
 
-- [ ] **Step 2: Implement hotkey listener**
+- [x] **Step 2: Implement hotkey listener**
 
 Create `src-tauri/src/hotkey.rs`:
 ```rust
@@ -1484,15 +1484,15 @@ impl HotkeyService {
 }
 ```
 
-- [ ] **Step 3: Add `mod hotkey;` to main.rs**
+- [x] **Step 3: Add `mod hotkey;` to main.rs**
 
-- [ ] **Step 4: Compile check**
+- [x] **Step 4: Compile check**
 
 ```bash
 cd src-tauri && cargo check
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4521,8 +4521,8 @@ Which approach?
 - [x] **M1.4** `Transcriber` trait + whisper.cpp implementation
 - [x] **M1.5** Paste module — macOS
 - [x] **M1.6** Paste module — Windows
-- [ ] **M1.7** State machine actor
-- [ ] **M1.8** Global hotkey wiring
+- [x] **M1.7** State machine actor
+- [x] **M1.8** Global hotkey wiring
 - [ ] **M1.9** Model bootstrap — download whisper-tiny on first run
 - [ ] **M1.10** Wire pipeline end-to-end through `main.rs`
 - [ ] **M1.11** Smoke-test transcription with a generated audio sample
