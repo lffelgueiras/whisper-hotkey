@@ -2,6 +2,7 @@ mod asr;
 mod audio;
 mod error;
 mod logging;
+mod paste;
 
 use tauri::menu::{MenuBuilder, MenuItemBuilder};
 use tauri::tray::TrayIconBuilder;
