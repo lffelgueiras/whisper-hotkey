@@ -3101,7 +3101,7 @@ git commit -m "docs(m3): note type regeneration workflow"
 - Create: `src-tauri/src/storage/history.rs`
 - Modify: `src-tauri/src/storage/mod.rs`, `src-tauri/src/lib.rs`
 
-- [ ] **Step 1: Test + impl**
+- [x] **Step 1: Test + impl**
 
 Create `src-tauri/src/storage/history.rs`:
 ```rust
@@ -3180,13 +3180,13 @@ mod tests {
 
 Add `pub mod history;` to `storage/mod.rs`.
 
-- [ ] **Step 2: Test**
+- [x] **Step 2: Test**
 
 ```bash
 cd src-tauri && cargo test history::
 ```
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4548,7 +4548,7 @@ Which approach?
 
 ## M4 — History
 
-- [ ] **M4.1** History storage
+- [x] **M4.1** History storage
 - [ ] **M4.2** Append history during pipeline
 - [ ] **M4.3** History commands + window
 
