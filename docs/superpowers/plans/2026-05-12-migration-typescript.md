@@ -4178,7 +4178,7 @@ git commit -m "feat(m8): theme — system/light/dark with live switching"
 - Modify: `src/App.tsx`
 - Run: `pnpm dlx shadcn@latest add toast sonner`
 
-- [ ] **Step 1: Listen for errors and show toast**
+- [x] **Step 1: Listen for errors and show toast**
 
 In `App.tsx`:
 ```tsx
@@ -4201,7 +4201,7 @@ In Rust, emit `error` events from the pipeline's failure branches:
 let _ = handle.emit("error", e.to_dto());
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add -A
@@ -4573,7 +4573,7 @@ Which approach?
 ## M8 — Polish
 
 - [x] **M8.1** Apply theme
-- [ ] **M8.2** Toast on errors
+- [x] **M8.2** Toast on errors
 - [ ] **M8.3** File-based rotating logs
 
 ## M9 — Distribution
