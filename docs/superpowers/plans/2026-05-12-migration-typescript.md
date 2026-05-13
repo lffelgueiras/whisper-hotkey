@@ -3907,7 +3907,7 @@ git commit -m "feat(m7): onboarding window scaffolding with 3 steps"
 - Create: `src-tauri/src/permissions.rs`
 - Modify: `src-tauri/src/lib.rs`, `src-tauri/src/commands.rs`
 
-- [ ] **Step 1: Implement checks**
+- [x] **Step 1: Implement checks**
 
 Create `src-tauri/src/permissions.rs`:
 ```rust
@@ -3966,7 +3966,7 @@ fn main() {
 
 Add `pub mod permissions;` to `lib.rs`.
 
-- [ ] **Step 2: Commands**
+- [x] **Step 2: Commands**
 
 Add to `commands.rs`:
 ```rust
@@ -3982,7 +3982,7 @@ pub fn open_accessibility_panel() -> Result<(), AppErrorDto> {
 
 Register both.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4566,7 +4566,7 @@ Which approach?
 ## M7 — Onboarding + Permissions
 
 - [x] **M7.1** Onboarding window scaffolding
-- [ ] **M7.2** Permission helpers
+- [x] **M7.2** Permission helpers
 - [ ] **M7.3** Permissions step UI
 - [ ] **M7.4** Model download step
 
