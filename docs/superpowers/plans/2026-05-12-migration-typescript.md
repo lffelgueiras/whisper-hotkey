@@ -4433,7 +4433,7 @@ git commit -m "docs(m10): rewrite README for tauri app with macos+windows instal
 
 ### Task M10.3: Tag v1.0.0
 
-- [ ] **Step 1: Tag and push**
+- [x] **Step 1: Tag and push**
 
 ```bash
 git tag v1.0.0
@@ -4442,7 +4442,7 @@ git push origin v1.0.0
 
 CI builds + publishes signed installers. Verify the release page on GitHub has both artifacts.
 
-- [ ] **Step 2: Smoke install**
+- [x] **Step 2: Smoke install**
 
 On a fresh Mac and a fresh Windows machine, download the installer, install, run, complete onboarding, transcribe. Confirm it works.
 
@@ -4585,7 +4585,7 @@ Which approach?
 
 - [x] **M10.1** Delete Python files
 - [x] **M10.2** Rewrite `README.md`
-- [ ] **M10.3** Tag v1.0.0
+- [x] **M10.3** Tag v1.0.0
 
 ## Cross-cutting follow-ups (track separately — not blockers)
 
