@@ -3615,7 +3615,7 @@ git commit -m "feat(m5): vocabulary tab — words editor + replacement rules"
 - Create: `src-tauri/src/llm/mod.rs`, `src-tauri/src/llm/llama_cpp.rs`
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/lib.rs`
 
-- [ ] **Step 1: Add crate**
+- [x] **Step 1: Add crate**
 
 ```toml
 [target.'cfg(target_os = "macos")'.dependencies]
@@ -3625,7 +3625,7 @@ llama-cpp-2 = { version = "0.1", features = ["metal"] }
 llama-cpp-2 = { version = "0.1", default-features = false }
 ```
 
-- [ ] **Step 2: Trait + impl**
+- [x] **Step 2: Trait + impl**
 
 Create `src-tauri/src/llm/mod.rs`:
 ```rust
@@ -3677,9 +3677,9 @@ impl PostProcessor for LlamaPostProcessor {
 
 > **Critical for the engineer:** the `llama-cpp-2` API evolves quickly. Before implementing, read https://github.com/utilityai/llama-cpp-rs and follow the latest example. Replace the `Err(...)` above with: load model once and cache, tokenize the prompt, run inference with `temperature=0.2`, decode response, strip the prompt prefix. Wrap the entire inference in `tokio::time::timeout(Duration::from_millis(cfg.llm_timeout_ms))`.
 
-- [ ] **Step 3: Add `pub mod llm;` to lib.rs**
+- [x] **Step 3: Add `pub mod llm;` to lib.rs**
 
-- [ ] **Step 4: Commit (scaffold)**
+- [x] **Step 4: Commit (scaffold)**
 
 ```bash
 git add -A
@@ -4559,7 +4559,7 @@ Which approach?
 
 ## M6 — LLM post-processing
 
-- [ ] **M6.1** `PostProcessor` trait + llama-cpp scaffold
+- [x] **M6.1** `PostProcessor` trait + llama-cpp scaffold
 - [ ] **M6.2** Concrete llama-cpp integration
 - [ ] **M6.3** Wire post-processing into pipeline
 
