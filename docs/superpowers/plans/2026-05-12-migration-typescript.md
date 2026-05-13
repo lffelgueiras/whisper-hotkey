@@ -4270,7 +4270,7 @@ git commit -m "feat(m8): daily-rotating file logs + tray entry to open logs fold
 **Files:**
 - Modify: `src-tauri/tauri.conf.json`, `.github/workflows/release.yml`
 
-- [ ] **Step 1: Configure tauri.conf.json bundle**
+- [x] **Step 1: Configure tauri.conf.json bundle**
 
 ```json
 "bundle": {
@@ -4302,7 +4302,7 @@ Create `src-tauri/entitlements.plist`:
 </plist>
 ```
 
-- [ ] **Step 2: Release workflow**
+- [x] **Step 2: Release workflow**
 
 Create `.github/workflows/release.yml`:
 ```yaml
@@ -4344,11 +4344,11 @@ jobs:
             src-tauri/target/release/bundle/nsis/*.exe
 ```
 
-- [ ] **Step 3: Document secret setup**
+- [x] **Step 3: Document secret setup**
 
 Append to `README.dev.md` a section "Release secrets" listing required GitHub secrets and how to generate the macOS certificate.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -4578,7 +4578,7 @@ Which approach?
 
 ## M9 — Distribution
 
-- [ ] **M9.1** macOS signing + notarization
+- [x] **M9.1** macOS signing + notarization
 - [ ] **M9.2** Windows installer (NSIS)
 
 ## M10 — Retire Python
