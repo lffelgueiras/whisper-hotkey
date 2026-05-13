@@ -7,10 +7,11 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  default: "bg-accent text-white hover:opacity-90",
-  outline: "border border-border bg-transparent hover:bg-muted",
-  ghost: "hover:bg-muted",
-  destructive: "bg-red-500 text-white hover:bg-red-600",
+  default: "bg-accent text-accent-foreground hover:opacity-90",
+  outline:
+    "border border-border bg-background/40 hover:bg-background/60 backdrop-blur",
+  ghost: "text-muted-foreground hover:bg-muted hover:text-foreground",
+  destructive: "bg-destructive text-destructive-foreground hover:opacity-90",
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

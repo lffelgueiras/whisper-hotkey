@@ -5,8 +5,10 @@ export interface ReplacementRule {
   to: string;
   regex: boolean;
 }
+export type HotkeyTrigger = "toggle" | "push_to_talk";
 export interface Config {
   hotkey: string;
+  hotkey_trigger: HotkeyTrigger;
   auto_paste: boolean;
   overlay_position: OverlayPosition;
   theme: Theme;
@@ -17,4 +19,6 @@ export interface Config {
   vocabulary: string[];
   replacements: ReplacementRule[];
   onboarding_complete: boolean;
+  start_at_login: boolean;
+  sound_feedback: boolean;
 }

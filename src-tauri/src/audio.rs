@@ -1,6 +1,21 @@
 use crate::error::AppError;
 use parking_lot::Mutex;
+use std::sync::atomic::{AtomicU32, Ordering};
 use std::sync::Arc;
+
+fn update_peak(slot: &AtomicU32, new: f32) {
+    let mut cur = slot.load(Ordering::Acquire);
+    loop {
+        let cur_f = f32::from_bits(cur);
+        if new <= cur_f {
+            return;
+        }
+        match slot.compare_exchange_weak(cur, new.to_bits(), Ordering::AcqRel, Ordering::Acquire) {
+            Ok(_) => return,
+            Err(v) => cur = v,
+        }
+    }
+}
 
 pub fn resample_to_16k_mono(samples: &[f32], from_hz: u32, channels: u16) -> Vec<f32> {
     let mono: Vec<f32> = if channels == 1 {
@@ -33,6 +48,14 @@ pub struct AudioCapturer {
     stream: Mutex<Option<cpal::Stream>>,
     sample_rate: Arc<Mutex<u32>>,
     channels: Arc<Mutex<u16>>,
+    peak: Arc<AtomicU32>,
+}
+
+impl AudioCapturer {
+    pub fn take_peak(&self) -> f32 {
+        let bits = self.peak.swap(0, Ordering::AcqRel);
+        f32::from_bits(bits)
+    }
 }
 
 // SAFETY: cpal::Stream contains platform handles that are not auto-Send/Sync,
@@ -49,6 +72,7 @@ impl AudioCapturer {
             stream: Mutex::new(None),
             sample_rate: Arc::new(Mutex::new(16_000)),
             channels: Arc::new(Mutex::new(1)),
+            peak: Arc::new(AtomicU32::new(0)),
         }
     }
 
@@ -58,19 +82,39 @@ impl AudioCapturer {
         let device = host
             .default_input_device()
             .ok_or_else(|| AppError::Mic("no default input device".into()))?;
+        let name = device.name().unwrap_or_else(|_| "?".into());
         let config = device
             .default_input_config()
             .map_err(|e| AppError::Mic(format!("default config: {e}")))?;
+        tracing::info!(
+            "audio input: device={:?} sr={} ch={} fmt={:?}",
+            name,
+            config.sample_rate().0,
+            config.channels(),
+            config.sample_format()
+        );
 
         *self.sample_rate.lock() = config.sample_rate().0;
         *self.channels.lock() = config.channels();
         self.buffer.lock().clear();
 
         let buf = self.buffer.clone();
+        let peak_f32 = self.peak.clone();
+        let peak_i16 = self.peak.clone();
         let stream = match config.sample_format() {
             cpal::SampleFormat::F32 => device.build_input_stream(
                 &config.into(),
-                move |data: &[f32], _: &_| buf.lock().extend_from_slice(data),
+                move |data: &[f32], _: &_| {
+                    buf.lock().extend_from_slice(data);
+                    let mut m = 0f32;
+                    for &s in data {
+                        let a = s.abs();
+                        if a > m {
+                            m = a;
+                        }
+                    }
+                    update_peak(&peak_f32, m);
+                },
                 move |err| tracing::error!("audio stream err: {err}"),
                 None,
             ),
@@ -78,9 +122,17 @@ impl AudioCapturer {
                 &config.into(),
                 move |data: &[i16], _: &_| {
                     let mut g = buf.lock();
+                    let mut m = 0f32;
                     for &s in data {
-                        g.push(s as f32 / i16::MAX as f32);
+                        let f = s as f32 / i16::MAX as f32;
+                        g.push(f);
+                        let a = f.abs();
+                        if a > m {
+                            m = a;
+                        }
                     }
+                    drop(g);
+                    update_peak(&peak_i16, m);
                 },
                 move |err| tracing::error!("audio stream err: {err}"),
                 None,

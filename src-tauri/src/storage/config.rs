@@ -13,6 +13,20 @@ pub enum OverlayPosition {
     BottomCenter,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, ts_rs::TS)]
+#[ts(export, export_to = "../src/ipc/generated/")]
+#[serde(rename_all = "snake_case")]
+pub enum HotkeyTrigger {
+    Toggle,
+    PushToTalk,
+}
+
+impl Default for HotkeyTrigger {
+    fn default() -> Self {
+        Self::Toggle
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, ts_rs::TS)]
 #[ts(export, export_to = "../src/ipc/generated/")]
 #[serde(rename_all = "lowercase")]
@@ -35,6 +49,7 @@ pub struct ReplacementRule {
 #[serde(default)]
 pub struct Config {
     pub hotkey: String,
+    pub hotkey_trigger: HotkeyTrigger,
     pub auto_paste: bool,
     pub overlay_position: OverlayPosition,
     pub theme: Theme,
@@ -45,22 +60,27 @@ pub struct Config {
     pub vocabulary: Vec<String>,
     pub replacements: Vec<ReplacementRule>,
     pub onboarding_complete: bool,
+    pub start_at_login: bool,
+    pub sound_feedback: bool,
 }
 
 impl Default for Config {
     fn default() -> Self {
         Self {
-            hotkey: "CmdOrControl+Shift+Space".into(),
+            hotkey: "Control+Space".into(),
+            hotkey_trigger: HotkeyTrigger::Toggle,
             auto_paste: true,
             overlay_position: OverlayPosition::TopCenter,
             theme: Theme::System,
             asr_model: "whisper-base".into(),
             post_processing_enabled: false,
-            llm_model: "gemma-2-2b-it-q4_k_m".into(),
-            llm_timeout_ms: 8000,
+            llm_model: "gemma-4-e2b-it-q4_k_m".into(),
+            llm_timeout_ms: 60000,
             vocabulary: vec![],
             replacements: vec![],
             onboarding_complete: false,
+            start_at_login: false,
+            sound_feedback: false,
         }
     }
 }
@@ -95,9 +115,9 @@ mod tests {
     #[test]
     fn defaults_are_stable() {
         let c = Config::default();
-        assert_eq!(c.hotkey, "CmdOrControl+Shift+Space");
+        assert_eq!(c.hotkey, "Control+Space");
         assert!(c.auto_paste);
-        assert_eq!(c.llm_timeout_ms, 8000);
+        assert_eq!(c.llm_timeout_ms, 60000);
     }
 
     #[test]

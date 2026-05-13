@@ -2,6 +2,7 @@ use crate::error::AppError;
 
 pub trait Paster: Send + Sync {
     fn paste(&self, text: &str) -> Result<(), AppError>;
+    fn copy(&self, text: &str) -> Result<(), AppError>;
 }
 
 #[cfg(target_os = "macos")]

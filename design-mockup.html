@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Whisper Hotkey — Redesign Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:#fff;-webkit-font-smoothing:antialiased}
+  body{background:#08070d;min-height:100vh}
+
+  /* ---------- shared layout ---------- */
+  .page-header{padding:80px 48px 32px;text-align:center;color:#fff}
+  .page-header h1{font-size:56px;margin:0 0 12px;font-weight:700;letter-spacing:-0.03em;background:linear-gradient(135deg,#fff 0%,#a78bfa 70%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .page-header p{font-size:18px;opacity:.6;max-width:640px;margin:0 auto;line-height:1.5}
+
+  .variation{position:relative;padding:64px 48px 96px;overflow:hidden}
+  .variation::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none}
+  .variation > *{position:relative;z-index:1}
+  .variation-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);margin-bottom:8px}
+  .variation-tag .dot{width:8px;height:8px;border-radius:50%}
+  .variation-title{font-size:40px;font-weight:700;letter-spacing:-0.025em;margin:12px 0 8px}
+  .variation-desc{font-size:15px;opacity:.6;max-width:560px;margin:0 0 40px;line-height:1.6}
+
+  .panels{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1400px;margin:0 auto}
+  @media (max-width:1100px){.panels{grid-template-columns:1fr}}
+
+  /* ---------- glass card primitive ---------- */
+  .glass{border-radius:20px;backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);box-shadow:0 20px 60px -20px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.06) inset;overflow:hidden}
+  .glass-header{padding:20px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)}
+  .glass-header h3{margin:0;font-size:15px;font-weight:600;letter-spacing:-0.01em}
+  .glass-header .subtitle{font-size:12px;opacity:.5;margin-top:2px}
+  .traffic{display:flex;gap:6px}
+  .traffic span{width:11px;height:11px;border-radius:50%}
+  .traffic .r{background:#ff5f57}.traffic .y{background:#febc2e}.traffic .g{background:#28c840}
+
+  .glass-body{padding:24px}
+
+  /* ---------- settings rows ---------- */
+  .setting-tabs{display:flex;gap:4px;padding:6px;border-radius:12px;background:rgba(255,255,255,.04);margin-bottom:20px}
+  .setting-tab{flex:1;padding:8px 14px;font-size:13px;font-weight:500;border-radius:8px;cursor:pointer;text-align:center;opacity:.6;transition:all .15s}
+  .setting-tab.active{opacity:1;background:rgba(255,255,255,.1);box-shadow:0 1px 0 0 rgba(255,255,255,.1) inset,0 4px 12px -4px rgba(0,0,0,.4)}
+
+  .row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+  .row:last-child{border-bottom:none}
+  .row-label{font-size:14px;font-weight:500}
+  .row-desc{font-size:12px;opacity:.5;margin-top:2px}
+
+  .kbd{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 1px 2px rgba(0,0,0,.3)}
+
+  .toggle{position:relative;width:44px;height:24px;border-radius:999px;background:rgba(255,255,255,.1);cursor:pointer;transition:background .2s}
+  .toggle::after{content:"";position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+  .toggle.on::after{transform:translateX(20px)}
+
+  .select{padding:7px 12px;font-size:13px;font-weight:500;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:8px;color:#fff;display:inline-flex;align-items:center;gap:8px}
+  .select::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);opacity:.6}
+
+  /* ---------- model rows ---------- */
+  .model-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);margin-bottom:8px}
+  .model-row.active{background:rgba(167,139,250,.08);border-color:rgba(167,139,250,.3)}
+  .model-info{display:flex;flex-direction:column}
+  .model-name{font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px}
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+  .badge.dl{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+  .badge.beta{background:rgba(251,191,36,.12);color:#fbbf24;border:1px solid rgba(251,191,36,.2)}
+  .model-meta{font-size:11px;opacity:.5;margin-top:2px}
+
+  .btn{padding:7px 14px;font-size:12px;font-weight:600;border-radius:8px;border:none;cursor:pointer;font-family:inherit}
+  .btn-primary{background:#fff;color:#0a0a14}
+  .btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.15)}
+  .btn-ghost{background:transparent;color:#fff;opacity:.6}
+  .btn-active{background:linear-gradient(135deg,#a78bfa,#7c3aed);color:#fff;box-shadow:0 4px 12px -4px rgba(124,58,237,.6)}
+
+  .progress{height:4px;border-radius:2px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:8px}
+  .progress > div{height:100%;background:linear-gradient(90deg,#a78bfa,#ec4899)}
+
+  /* ---------- history ---------- */
+  .history-search{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:16px}
+  .history-search input{flex:1;background:transparent;border:none;color:#fff;font-family:inherit;font-size:14px;outline:none}
+  .history-search input::placeholder{color:rgba(255,255,255,.4)}
+  .history-search svg{opacity:.5}
+
+  .filter-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+  .chip{padding:5px 12px;font-size:12px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);cursor:pointer}
+  .chip.active{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.2);font-weight:500}
+
+  .hist-item{padding:16px;border-radius:14px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.04);margin-bottom:10px;cursor:pointer;transition:all .15s}
+  .hist-item:hover{background:rgba(255,255,255,.045);border-color:rgba(255,255,255,.08)}
+  .hist-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+  .hist-time{font-size:11px;opacity:.5;display:flex;align-items:center;gap:6px}
+  .hist-time::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.6}
+  .hist-actions{display:flex;gap:4px;opacity:0;transition:opacity .15s}
+  .hist-item:hover .hist-actions{opacity:1}
+  .icon-btn{width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.06);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:.7}
+  .icon-btn:hover{opacity:1;background:rgba(255,255,255,.12)}
+  .hist-text{font-size:13.5px;line-height:1.55;opacity:.85}
+  .hist-meta{display:flex;gap:14px;margin-top:10px;font-size:11px;opacity:.45}
+  .hist-meta span{display:inline-flex;align-items:center;gap:4px}
+
+  /* ---------- overlay sample ---------- */
+  .overlay-sample{position:absolute;top:18px;right:24px;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:999px;backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+  .overlay-sample .pulse{width:8px;height:8px;border-radius:50%;background:#ef4444;box-shadow:0 0 0 0 rgba(239,68,68,.7);animation:pulse 1.8s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.7)}70%{box-shadow:0 0 0 8px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+  .overlay-sample .text{font-size:12.5px;font-weight:500}
+  .overlay-sample .timer{font-family:'JetBrains Mono',monospace;font-size:11px;opacity:.6}
+
+  /* ====================================================================
+     V1: AURORA — vibrant purple/blue/pink gradient, white-ish glass
+     ==================================================================== */
+  .v-aurora{color:#fff}
+  .v-aurora::before{
+    background:
+      radial-gradient(circle at 20% 20%,rgba(167,139,250,.55),transparent 40%),
+      radial-gradient(circle at 80% 30%,rgba(236,72,153,.45),transparent 45%),
+      radial-gradient(circle at 50% 80%,rgba(59,130,246,.5),transparent 50%),
+      #0b0a1a;
+  }
+  .v-aurora .variation-tag .dot{background:linear-gradient(135deg,#a78bfa,#ec4899)}
+  .v-aurora .glass{background:rgba(255,255,255,.06)}
+
+  /* ====================================================================
+     V2: OBSIDIAN — near-black with cyan/emerald accent, deep glass
+     ==================================================================== */
+  .v-obsidian{color:#e8edf2}
+  .v-obsidian::before{
+    background:
+      radial-gradient(circle at 100% 0%,rgba(34,211,238,.18),transparent 50%),
+      radial-gradient(circle at 0% 100%,rgba(16,185,129,.12),transparent 55%),
+      linear-gradient(180deg,#06080c 0%,#0a0d14 100%);
+  }
+  .v-obsidian .variation-tag .dot{background:linear-gradient(135deg,#22d3ee,#10b981)}
+  .v-obsidian .glass{background:rgba(15,20,28,.55);box-shadow:0 20px 60px -20px rgba(0,0,0,.7),0 0 0 1px rgba(34,211,238,.08) inset}
+  .v-obsidian .model-row.active{background:rgba(34,211,238,.07);border-color:rgba(34,211,238,.3)}
+  .v-obsidian .btn-active{background:linear-gradient(135deg,#22d3ee,#0891b2);box-shadow:0 4px 12px -4px rgba(34,211,238,.5)}
+  .v-obsidian .progress > div{background:linear-gradient(90deg,#22d3ee,#10b981)}
+  .v-obsidian .page-header h1{background:linear-gradient(135deg,#fff 0%,#22d3ee 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+
+  /* ====================================================================
+     V3: FROST — light mode-ish, muted pastel gradient, frosted white
+     ==================================================================== */
+  .v-frost{color:#1a1626}
+  .v-frost::before{
+    background:
+      radial-gradient(circle at 15% 25%,rgba(196,181,253,.6),transparent 45%),
+      radial-gradient(circle at 85% 75%,rgba(252,211,231,.55),transparent 50%),
+      radial-gradient(circle at 50% 10%,rgba(186,230,253,.5),transparent 50%),
+      #f4f1fa;
+  }
+  .v-frost .variation-tag{background:rgba(255,255,255,.5);border-color:rgba(255,255,255,.6);color:#3d2e5a}
+  .v-frost .variation-tag .dot{background:linear-gradient(135deg,#8b5cf6,#ec4899)}
+  .v-frost .variation-desc{color:#4a3d63}
+  .v-frost .glass{background:rgba(255,255,255,.55);box-shadow:0 20px 60px -20px rgba(91,33,182,.15),0 0 0 1px rgba(255,255,255,.7) inset}
+  .v-frost .glass-header{border-bottom-color:rgba(91,33,182,.08)}
+  .v-frost .setting-tabs{background:rgba(91,33,182,.06)}
+  .v-frost .setting-tab.active{background:#fff;box-shadow:0 1px 3px rgba(91,33,182,.1)}
+  .v-frost .row{border-bottom-color:rgba(91,33,182,.06)}
+  .v-frost .row-desc{color:#6b5b85}
+  .v-frost .kbd{background:#fff;border-color:rgba(91,33,182,.1);color:#3d2e5a;box-shadow:0 1px 2px rgba(91,33,182,.08)}
+  .v-frost .toggle{background:rgba(91,33,182,.15)}
+  .v-frost .toggle.on{background:linear-gradient(135deg,#8b5cf6,#ec4899)}
+  .v-frost .select{background:#fff;border-color:rgba(91,33,182,.1);color:#3d2e5a}
+  .v-frost .model-row{background:rgba(255,255,255,.5);border-color:rgba(91,33,182,.06)}
+  .v-frost .model-row.active{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3)}
+  .v-frost .btn-outline{color:#3d2e5a;border-color:rgba(91,33,182,.15)}
+  .v-frost .btn-ghost{color:#3d2e5a}
+  .v-frost .btn-active{background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;box-shadow:0 4px 12px -4px rgba(139,92,246,.4)}
+  .v-frost .btn-primary{background:#1a1626;color:#fff}
+  .v-frost .badge.dl{background:rgba(16,185,129,.12);color:#059669;border-color:rgba(16,185,129,.25)}
+  .v-frost .history-search{background:rgba(255,255,255,.6);border-color:rgba(91,33,182,.08)}
+  .v-frost .history-search input{color:#1a1626}
+  .v-frost .history-search input::placeholder{color:rgba(26,22,38,.4)}
+  .v-frost .chip{background:rgba(255,255,255,.5);border-color:rgba(91,33,182,.08);color:#3d2e5a}
+  .v-frost .chip.active{background:#1a1626;color:#fff;border-color:#1a1626}
+  .v-frost .hist-item{background:rgba(255,255,255,.45);border-color:rgba(91,33,182,.06)}
+  .v-frost .hist-item:hover{background:rgba(255,255,255,.7)}
+  .v-frost .hist-text{color:#2a2240}
+  .v-frost .icon-btn{background:rgba(91,33,182,.08);color:#3d2e5a}
+  .v-frost .overlay-sample{background:rgba(255,255,255,.7);color:#1a1626;border-color:rgba(91,33,182,.15)}
+
+  /* ---------- footer ---------- */
+  footer{padding:60px 48px 80px;text-align:center;color:#fff;opacity:.4;font-size:13px}
+
+  /* divider between variations */
+  .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);margin:0 auto;max-width:1200px}
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Whisper Hotkey — Redesign</h1>
+  <p>Três variações de tema "glass". Cada uma mostra a tela de <b>Settings</b> e a nova tela de <b>Histórico de transcrições</b>, com o overlay de gravação no canto superior direito.</p>
+</div>
+
+<!-- ============================================================ V1 AURORA -->
+<section class="variation v-aurora">
+  <div class="overlay-sample">
+    <span class="pulse"></span>
+    <span class="text">Gravando</span>
+    <span class="timer">0:14</span>
+  </div>
+
+  <span class="variation-tag"><span class="dot"></span>Variação 01 · Aurora</span>
+  <h2 class="variation-title">Aurora</h2>
+  <p class="variation-desc">Gradiente vibrante (roxo / rosa / azul) sob vidros translúcidos brancos. Energia, "premium consumer". Inspiração: SuperWhisper recente, Linear, Raycast Pro.</p>
+
+  <div class="panels">
+
+    <!-- Settings -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Settings</h3>
+          <div class="subtitle">Atalho, modelos e preferências</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="setting-tabs">
+          <div class="setting-tab active">Geral</div>
+          <div class="setting-tab">Modelos</div>
+          <div class="setting-tab">Vocabulário</div>
+          <div class="setting-tab">Atalhos</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Hotkey de gravação</div>
+            <div class="row-desc">Pressione para gravar; release para enviar</div>
+          </div>
+          <div style="display:flex;gap:4px"><span class="kbd">⌃</span><span class="kbd">⌥</span><span class="kbd">Space</span></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Modo do atalho</div>
+            <div class="row-desc">Push-to-talk ou alternar</div>
+          </div>
+          <div class="select">Push to talk</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Colar automaticamente</div>
+            <div class="row-desc">Envia ⌘V depois da transcrição</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Iniciar com o sistema</div>
+            <div class="row-desc">Abrir minimizado no login</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Posição do overlay</div>
+            <div class="row-desc">Onde o indicador aparece</div>
+          </div>
+          <div class="select">Topo · centro</div>
+        </div>
+
+        <div style="margin-top:24px">
+          <div class="row-label" style="margin-bottom:12px">Modelo ASR</div>
+          <div class="model-row active">
+            <div class="model-info">
+              <div class="model-name">Whisper Large v3 Turbo <span class="badge dl">● Baixado</span></div>
+              <div class="model-meta">1.5GB · multilíngue · melhor qualidade</div>
+            </div>
+            <button class="btn btn-active">Ativo</button>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Medium</div>
+              <div class="model-meta">760MB · balanceado</div>
+              <div class="progress"><div style="width:62%"></div></div>
+            </div>
+            <button class="btn btn-outline">62%</button>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Small</div>
+              <div class="model-meta">460MB · rápido</div>
+            </div>
+            <button class="btn btn-outline">Usar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Histórico</h3>
+          <div class="subtitle">847 transcrições · 12h 34min</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="history-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Buscar transcrições..." />
+          <span class="kbd">⌘K</span>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip active">Hoje</div>
+          <div class="chip">Semana</div>
+          <div class="chip">Mês</div>
+          <div class="chip">Tudo</div>
+          <div class="chip">★ Favoritos</div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 4 minutos · 0:23</div>
+            <div class="hist-actions">
+              <button class="icon-btn" title="Copiar">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+              <button class="icon-btn" title="Favoritar">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+              </button>
+              <button class="icon-btn" title="Apagar">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="hist-text">Vou mandar a proposta revisada ainda hoje, falei com o time financeiro e eles aprovaram o ajuste de escopo que combinamos na última call.</div>
+          <div class="hist-meta">
+            <span>📋 Colado em Slack</span>
+            <span>⏱ 0:23</span>
+            <span>67 palavras</span>
+          </div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 23 minutos · 0:08</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Lembrete: ajustar o setLevel para 1000 e testar em fullscreen.</div>
+          <div class="hist-meta"><span>📋 Notas</span><span>⏱ 0:08</span><span>11 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 1 hora · 1:42</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Resumo da reunião com o cliente — pontos principais: (1) prazo final mantido em 30 de junho, (2) escopo do módulo de relatórios reduzido, (3) integração com Stripe...</div>
+          <div class="hist-meta"><span>📋 Notion</span><span>⏱ 1:42</span><span>284 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">ontem · 0:31</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Bom dia! Conseguiria me passar o link do PR para eu revisar antes do standup?</div>
+          <div class="hist-meta"><span>📋 Mensagens</span><span>⏱ 0:31</span><span>17 palavras</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ V2 OBSIDIAN -->
+<section class="variation v-obsidian">
+  <div class="overlay-sample">
+    <span class="pulse"></span>
+    <span class="text">Gravando</span>
+    <span class="timer">0:14</span>
+  </div>
+
+  <span class="variation-tag"><span class="dot"></span>Variação 02 · Obsidian</span>
+  <h2 class="variation-title">Obsidian</h2>
+  <p class="variation-desc">Quase preto, com acentos em ciano / esmeralda. Sóbrio, "pro tool", denso. Inspiração: Arc Browser, Linear dark, terminal moderno.</p>
+
+  <div class="panels">
+
+    <!-- Settings -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Settings</h3>
+          <div class="subtitle">Atalho, modelos e preferências</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="setting-tabs">
+          <div class="setting-tab active">Geral</div>
+          <div class="setting-tab">Modelos</div>
+          <div class="setting-tab">Vocabulário</div>
+          <div class="setting-tab">Atalhos</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Hotkey de gravação</div>
+            <div class="row-desc">Pressione para gravar; release para enviar</div>
+          </div>
+          <div style="display:flex;gap:4px"><span class="kbd">⌃</span><span class="kbd">⌥</span><span class="kbd">Space</span></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Modo do atalho</div>
+            <div class="row-desc">Push-to-talk ou alternar</div>
+          </div>
+          <div class="select">Push to talk</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Colar automaticamente</div>
+            <div class="row-desc">Envia ⌘V depois da transcrição</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Pós-processamento (LLM)</div>
+            <div class="row-desc">Refina pontuação e formatação</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Iniciar com o sistema</div>
+            <div class="row-desc">Abrir minimizado no login</div>
+          </div>
+          <div class="toggle"></div>
+        </div>
+
+        <div style="margin-top:24px">
+          <div class="row-label" style="margin-bottom:12px">Modelo ASR</div>
+          <div class="model-row active">
+            <div class="model-info">
+              <div class="model-name">Whisper Large v3 Turbo <span class="badge dl">● Baixado</span></div>
+              <div class="model-meta">1.5GB · multilíngue · melhor qualidade</div>
+            </div>
+            <button class="btn btn-active">Ativo</button>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Medium <span class="badge dl">● Baixado</span></div>
+              <div class="model-meta">760MB · balanceado</div>
+            </div>
+            <div style="display:flex;gap:6px">
+              <button class="btn btn-ghost">Apagar</button>
+              <button class="btn btn-outline">Usar</button>
+            </div>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Small</div>
+              <div class="model-meta">460MB · rápido</div>
+            </div>
+            <button class="btn btn-outline">Baixar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Histórico</h3>
+          <div class="subtitle">847 transcrições · 12h 34min total</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="history-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Buscar transcrições..." />
+          <span class="kbd">⌘K</span>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip active">Hoje</div>
+          <div class="chip">Semana</div>
+          <div class="chip">Mês</div>
+          <div class="chip">Tudo</div>
+          <div class="chip">★ Favoritos</div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 4 minutos · 0:23</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Vou mandar a proposta revisada ainda hoje, falei com o time financeiro e eles aprovaram o ajuste de escopo que combinamos na última call.</div>
+          <div class="hist-meta"><span>📋 Slack</span><span>⏱ 0:23</span><span>67 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 23 minutos · 0:08</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Lembrete: ajustar o setLevel para 1000 e testar em fullscreen.</div>
+          <div class="hist-meta"><span>📋 Notas</span><span>⏱ 0:08</span><span>11 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 1 hora · 1:42</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Resumo da reunião com o cliente — pontos principais: (1) prazo final mantido em 30 de junho, (2) escopo do módulo de relatórios reduzido, (3) integração com Stripe...</div>
+          <div class="hist-meta"><span>📋 Notion</span><span>⏱ 1:42</span><span>284 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">ontem · 0:31</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Bom dia! Conseguiria me passar o link do PR para eu revisar antes do standup?</div>
+          <div class="hist-meta"><span>📋 Mensagens</span><span>⏱ 0:31</span><span>17 palavras</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ============================================================ V3 FROST -->
+<section class="variation v-frost">
+  <div class="overlay-sample">
+    <span class="pulse"></span>
+    <span class="text">Gravando</span>
+    <span class="timer">0:14</span>
+  </div>
+
+  <span class="variation-tag"><span class="dot"></span>Variação 03 · Frost</span>
+  <h2 class="variation-title">Frost</h2>
+  <p class="variation-desc">Pastéis suaves (lavanda, peach, baby blue) sob vidros bem brancos. Leve, amigável, "Apple-like". Inspiração: macOS Sonoma, Notion, Things 3.</p>
+
+  <div class="panels">
+
+    <!-- Settings -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Settings</h3>
+          <div class="subtitle">Atalho, modelos e preferências</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="setting-tabs">
+          <div class="setting-tab active">Geral</div>
+          <div class="setting-tab">Modelos</div>
+          <div class="setting-tab">Vocabulário</div>
+          <div class="setting-tab">Atalhos</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Hotkey de gravação</div>
+            <div class="row-desc">Pressione para gravar; release para enviar</div>
+          </div>
+          <div style="display:flex;gap:4px"><span class="kbd">⌃</span><span class="kbd">⌥</span><span class="kbd">Space</span></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Modo do atalho</div>
+            <div class="row-desc">Push-to-talk ou alternar</div>
+          </div>
+          <div class="select">Push to talk</div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Colar automaticamente</div>
+            <div class="row-desc">Envia ⌘V depois da transcrição</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Iniciar com o sistema</div>
+            <div class="row-desc">Abrir minimizado no login</div>
+          </div>
+          <div class="toggle on"></div>
+        </div>
+
+        <div class="row">
+          <div>
+            <div class="row-label">Posição do overlay</div>
+            <div class="row-desc">Onde o indicador aparece</div>
+          </div>
+          <div class="select">Topo · centro</div>
+        </div>
+
+        <div style="margin-top:24px">
+          <div class="row-label" style="margin-bottom:12px">Modelo ASR</div>
+          <div class="model-row active">
+            <div class="model-info">
+              <div class="model-name">Whisper Large v3 Turbo <span class="badge dl">● Baixado</span></div>
+              <div class="model-meta">1.5GB · multilíngue · melhor qualidade</div>
+            </div>
+            <button class="btn btn-active">Ativo</button>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Medium</div>
+              <div class="model-meta">760MB · balanceado</div>
+              <div class="progress"><div style="width:62%"></div></div>
+            </div>
+            <button class="btn btn-outline">62%</button>
+          </div>
+          <div class="model-row">
+            <div class="model-info">
+              <div class="model-name">Whisper Small</div>
+              <div class="model-meta">460MB · rápido</div>
+            </div>
+            <button class="btn btn-outline">Usar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="glass">
+      <div class="glass-header">
+        <div>
+          <h3>Histórico</h3>
+          <div class="subtitle">847 transcrições · 12h 34min</div>
+        </div>
+        <div class="traffic"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      </div>
+      <div class="glass-body">
+        <div class="history-search">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Buscar transcrições..." />
+          <span class="kbd">⌘K</span>
+        </div>
+
+        <div class="filter-row">
+          <div class="chip active">Hoje</div>
+          <div class="chip">Semana</div>
+          <div class="chip">Mês</div>
+          <div class="chip">Tudo</div>
+          <div class="chip">★ Favoritos</div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 4 minutos · 0:23</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Vou mandar a proposta revisada ainda hoje, falei com o time financeiro e eles aprovaram o ajuste de escopo que combinamos na última call.</div>
+          <div class="hist-meta"><span>📋 Slack</span><span>⏱ 0:23</span><span>67 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 23 minutos · 0:08</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Lembrete: ajustar o setLevel para 1000 e testar em fullscreen.</div>
+          <div class="hist-meta"><span>📋 Notas</span><span>⏱ 0:08</span><span>11 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">há 1 hora · 1:42</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Resumo da reunião com o cliente — pontos principais: (1) prazo final mantido em 30 de junho, (2) escopo do módulo de relatórios reduzido, (3) integração com Stripe...</div>
+          <div class="hist-meta"><span>📋 Notion</span><span>⏱ 1:42</span><span>284 palavras</span></div>
+        </div>
+
+        <div class="hist-item">
+          <div class="hist-top">
+            <div class="hist-time">ontem · 0:31</div>
+            <div class="hist-actions">
+              <button class="icon-btn">📋</button>
+              <button class="icon-btn">★</button>
+              <button class="icon-btn">🗑</button>
+            </div>
+          </div>
+          <div class="hist-text">Bom dia! Conseguiria me passar o link do PR para eu revisar antes do standup?</div>
+          <div class="hist-meta"><span>📋 Mensagens</span><span>⏱ 0:31</span><span>17 palavras</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  Mockup estático · escolha uma variação e implementamos no app real (Tauri + React + Tailwind).
+</footer>
+
+</body>
+</html>

@@ -14,11 +14,21 @@ impl MacPaster {
 }
 
 impl Paster for MacPaster {
-    fn paste(&self, text: &str) -> Result<(), AppError> {
+    fn copy(&self, text: &str) -> Result<(), AppError> {
         let mut cb =
             arboard::Clipboard::new().map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
         cb.set_text(text.to_string())
             .map_err(|e| AppError::Paste(format!("set clipboard: {e}")))?;
+        Ok(())
+    }
+
+    fn paste(&self, text: &str) -> Result<(), AppError> {
+        self.copy(text)?;
+        if !crate::permissions::check().accessibility {
+            return Err(AppError::Paste(
+                "Accessibility permission missing; cannot synthesize Cmd+V".into(),
+            ));
+        }
         let src = CGEventSource::new(CGEventSourceStateID::HIDSystemState)
             .map_err(|_| AppError::Paste("CGEventSource".into()))?;
         let down = CGEvent::new_keyboard_event(src.clone(), KEY_V, true)

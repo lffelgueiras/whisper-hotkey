@@ -1,0 +1,16 @@
+/* Overrides globals.css body background so the overlay window stays
+   fully transparent — the rounded pill in OverlayWindow paints itself. */
+:root {
+  color-scheme: only dark;
+}
+html,
+body,
+#overlay-root {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}

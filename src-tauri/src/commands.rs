@@ -5,7 +5,8 @@ use crate::storage::history::{self, HistoryEntry};
 use parking_lot::Mutex as PMutex;
 use serde::Serialize;
 use std::sync::Arc;
-use tauri::{AppHandle, Emitter, State};
+use tauri::{AppHandle, Emitter, Manager, State};
+use tauri_plugin_autostart::ManagerExt;
 
 pub struct ConfigState(pub Arc<PMutex<Config>>);
 pub struct HotkeyState(pub Arc<PMutex<crate::hotkey::HotkeyService>>);
@@ -40,6 +41,27 @@ pub fn update_config(
     Ok(new)
 }
 
+pub struct AudioState(pub Arc<crate::audio::AudioCapturer>);
+
+#[tauri::command]
+pub fn get_audio_level(audio: State<'_, AudioState>) -> f32 {
+    audio.0.take_peak()
+}
+
+#[tauri::command]
+pub fn pause_hotkey(hk: State<'_, HotkeyState>) {
+    hk.0.lock().unregister();
+}
+
+#[tauri::command]
+pub fn resume_hotkey(
+    state: State<'_, ConfigState>,
+    hk: State<'_, HotkeyState>,
+) -> Result<(), AppErrorDto> {
+    let cfg = state.0.lock();
+    hk.0.lock().register(&cfg.hotkey).map_err(|e| e.to_dto())
+}
+
 #[tauri::command]
 pub fn delete_model(id: String) -> Result<(), AppErrorDto> {
     let p = crate::models::model_path(&id);
@@ -60,6 +82,11 @@ pub fn list_models() -> Vec<ModelInfo> {
 }
 
 #[tauri::command]
+pub fn get_system_specs() -> crate::system_specs::SystemSpecs {
+    crate::system_specs::detect()
+}
+
+#[tauri::command]
 pub fn get_history() -> Result<Vec<HistoryEntry>, AppErrorDto> {
     history::read_all().map_err(|e| e.to_dto())
 }
@@ -77,6 +104,34 @@ pub fn clear_history() -> Result<(), AppErrorDto> {
 #[tauri::command]
 pub fn check_permissions() -> crate::permissions::PermissionStatus {
     crate::permissions::check()
+}
+
+#[tauri::command]
+pub fn request_accessibility() -> crate::permissions::PermissionStatus {
+    crate::permissions::check_with_prompt(true)
+}
+
+#[tauri::command]
+pub fn set_autostart(enable: bool, app: AppHandle) -> Result<(), AppErrorDto> {
+    let mgr = app.autolaunch();
+    let res = if enable {
+        mgr.enable()
+    } else {
+        mgr.disable()
+    };
+    res.map_err(|e| AppError::Internal(format!("autostart: {e}")).to_dto())?;
+    let state: State<ConfigState> = app.state();
+    let mut cfg = state.0.lock();
+    cfg.start_at_login = enable;
+    config::save(&cfg).map_err(|e| e.to_dto())?;
+    Ok(())
+}
+
+#[tauri::command]
+pub fn get_autostart(app: AppHandle) -> Result<bool, AppErrorDto> {
+    app.autolaunch()
+        .is_enabled()
+        .map_err(|e| AppError::Internal(format!("autostart: {e}")).to_dto())
 }
 
 #[tauri::command]

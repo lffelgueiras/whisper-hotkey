@@ -10,6 +10,7 @@
     "frontendDist": "../dist"
   },
   "app": {
+    "macOSPrivateApi": true,
     "trayIcon": {
       "id": "main",
       "iconPath": "icons/icon.png",
@@ -30,13 +31,15 @@
       {
         "label": "overlay",
         "url": "overlay.html",
-        "width": 140,
-        "height": 48,
+        "width": 220,
+        "height": 56,
         "visible": false,
         "decorations": false,
         "resizable": false,
         "transparent": true,
+        "backgroundColor": [0, 0, 0, 0],
         "alwaysOnTop": true,
+        "visibleOnAllWorkspaces": true,
         "skipTaskbar": true,
         "focus": false,
         "shadow": false,
@@ -57,6 +60,7 @@
   },
   "bundle": {
     "active": true,
+    "resources": ["binaries/llama-runtime/*"],
     "targets": ["app", "dmg", "nsis"],
     "category": "Utility",
     "macOS": {

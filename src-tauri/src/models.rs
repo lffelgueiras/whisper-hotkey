@@ -14,6 +14,10 @@ pub struct ModelInfo {
     pub sha256: String,
     pub size_bytes: u64,
     pub display_name: String,
+    /// Approximate peak RAM required to run inference on this model, in GB.
+    /// Used by the onboarding UI to flag models that exceed the host's
+    /// installed memory.
+    pub min_ram_gb: f32,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, ts_rs::TS, PartialEq, Eq)]
@@ -40,34 +44,139 @@ pub fn builtin_catalog() -> Vec<ModelInfo> {
             id: "whisper-tiny".into(),
             kind: ModelKind::Asr,
             url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin".into(),
-            sha256: "bd577a113a864445d4c299885e0cb97d4ba92b5f".into(),
-            size_bytes: 75_000_000,
-            display_name: "Whisper Tiny (75 MB) — fast, baseline quality".into(),
+            sha256: "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21"
+                .into(),
+            size_bytes: 77_691_713,
+            display_name: "Whisper Tiny (78 MB) — fastest, baseline quality".into(),
+            min_ram_gb: 1.0,
         },
         ModelInfo {
             id: "whisper-base".into(),
             kind: ModelKind::Asr,
             url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin".into(),
-            sha256: "60ed5bc3dd14eea856493d334349b405782ddcaf".into(),
-            size_bytes: 142_000_000,
-            display_name: "Whisper Base (142 MB) — recommended starter".into(),
+            sha256: "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe"
+                .into(),
+            size_bytes: 147_951_465,
+            display_name: "Whisper Base (148 MB) — fast, decent quality".into(),
+            min_ram_gb: 1.0,
+        },
+        ModelInfo {
+            id: "whisper-large-v3-turbo-q5_0".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin"
+                .into(),
+            sha256: "394221709cd5ad1f40c46e6031ca61bce88931e6e088c188294c6d5a55ffa7e2"
+                .into(),
+            size_bytes: 574_041_195,
+            display_name: "Whisper Large v3 Turbo q5_0 (574 MB) — recommended, great quality + fast"
+                .into(),
+            min_ram_gb: 2.0,
+        },
+        ModelInfo {
+            id: "whisper-large-v3-turbo-q8_0".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q8_0.bin"
+                .into(),
+            sha256: "317eb69c11673c9de1e1f0d459b253999804ec71ac4c23c17ecf5fbe24e259a1"
+                .into(),
+            size_bytes: 874_188_075,
+            display_name: "Whisper Large v3 Turbo q8_0 (874 MB) — higher fidelity turbo".into(),
+            min_ram_gb: 3.0,
+        },
+        ModelInfo {
+            id: "whisper-large-v3-turbo".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin"
+                .into(),
+            sha256: "1fc70f774d38eb169993ac391eea357ef47c88757ef72ee5943879b7e8e2bc69"
+                .into(),
+            size_bytes: 1_624_555_275,
+            display_name: "Whisper Large v3 Turbo full (1.6 GB) — full-precision turbo".into(),
+            min_ram_gb: 4.0,
         },
         ModelInfo {
             id: "whisper-large-v3-q5_0".into(),
             kind: ModelKind::Asr,
             url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-q5_0.bin"
                 .into(),
-            sha256: "e6d2a1c6f4b8d1c2b4a8c1d2e3f4a5b6c7d8e9f0".into(),
-            size_bytes: 1_080_000_000,
-            display_name: "Whisper Large v3 q5_0 (1 GB) — best quality".into(),
+            sha256: "d75795ecff3f83b5faa89d1900604ad8c780abd5739fae406de19f23ecd98ad1"
+                .into(),
+            size_bytes: 1_081_140_203,
+            display_name: "Whisper Large v3 q5_0 (1.08 GB) — best quality, slower than turbo".into(),
+            min_ram_gb: 3.0,
         },
         ModelInfo {
-            id: "gemma-2-2b-it-q4_k_m".into(),
+            id: "whisper-large-v3".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3.bin"
+                .into(),
+            sha256: "64d182b440b98d5203c4f9bd541544d84c605196c4f7b845dfa11fb23594d1e2"
+                .into(),
+            size_bytes: 3_095_033_483,
+            display_name: "Whisper Large v3 full (3.1 GB) — máxima qualidade oficial v3".into(),
+            min_ram_gb: 6.0,
+        },
+        ModelInfo {
+            id: "whisper-large-v2-q8_0".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v2-q8_0.bin"
+                .into(),
+            sha256: "fef54e6d898246a65c8285bfa83bd1807e27fadf54d5d4e81754c47634737e8c"
+                .into(),
+            size_bytes: 1_656_129_691,
+            display_name: "Whisper Large v2 q8_0 (1.66 GB) — v2 quantizado, ótimo para PT-BR".into(),
+            min_ram_gb: 4.0,
+        },
+        ModelInfo {
+            id: "whisper-large-v2".into(),
+            kind: ModelKind::Asr,
+            url: "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v2.bin"
+                .into(),
+            sha256: "9a423fe4d40c82774b6af34115b8b935f34152246eb19e80e376071d3f999487"
+                .into(),
+            size_bytes: 3_094_623_691,
+            display_name: "Whisper Large v2 full (3.1 GB) — máxima qualidade v2, alternativa ao v3".into(),
+            min_ram_gb: 6.0,
+        },
+        ModelInfo {
+            id: "gemma-4-e2b-it-q4_k_m".into(),
             kind: ModelKind::Llm,
-            url: "https://huggingface.co/bartowski/gemma-2-2b-it-GGUF/resolve/main/gemma-2-2b-it-Q4_K_M.gguf".into(),
-            sha256: "PLACEHOLDER_FILL_IN".into(),
-            size_bytes: 1_640_000_000,
-            display_name: "Gemma 2 2B Instruct Q4_K_M (1.6 GB)".into(),
+            url: "https://huggingface.co/bartowski/google_gemma-4-E2B-it-GGUF/resolve/main/google_gemma-4-E2B-it-Q4_K_M.gguf".into(),
+            sha256: "b5310340b3a23d31655d7119d100d5df1b2d8ee17b3ca8b0a23ad7e9eb5fa705"
+                .into(),
+            size_bytes: 3_462_678_272,
+            display_name: "Gemma 4 E2B Instruct Q4_K_M (3.5 GB) — leve, rápido".into(),
+            min_ram_gb: 6.0,
+        },
+        ModelInfo {
+            id: "gemma-4-e4b-it-q4_k_m".into(),
+            kind: ModelKind::Llm,
+            url: "https://huggingface.co/bartowski/google_gemma-4-E4B-it-GGUF/resolve/main/google_gemma-4-E4B-it-Q4_K_M.gguf".into(),
+            sha256: "51865750adafd22de56994a343d5a887cc1a589b9bae41d62b748c8bd0ca9c76"
+                .into(),
+            size_bytes: 5_405_168_384,
+            display_name: "Gemma 4 E4B Instruct Q4_K_M (5.4 GB) — qualidade maior".into(),
+            min_ram_gb: 9.0,
+        },
+        ModelInfo {
+            id: "qwen3-4b-q5_k_m".into(),
+            kind: ModelKind::Llm,
+            url: "https://huggingface.co/Qwen/Qwen3-4B-GGUF/resolve/main/Qwen3-4B-Q5_K_M.gguf".into(),
+            sha256: "aca596860e8cb40af6539e3f2ea40df305f42515deac56d49c08d39a02e6533f"
+                .into(),
+            size_bytes: 2_889_513_184,
+            display_name: "Qwen3 4B Q5_K_M (2.9 GB) — leve, multilingual forte".into(),
+            min_ram_gb: 6.0,
+        },
+        ModelInfo {
+            id: "qwen3-8b-q4_k_m".into(),
+            kind: ModelKind::Llm,
+            url: "https://huggingface.co/Qwen/Qwen3-8B-GGUF/resolve/main/Qwen3-8B-Q4_K_M.gguf".into(),
+            sha256: "d98cdcbd03e17ce47681435b5150e34c1417f50b5c0019dd560e4882c5745785"
+                .into(),
+            size_bytes: 5_027_783_488,
+            display_name: "Qwen3 8B Q4_K_M (5.0 GB) — qualidade alta, raciocínio melhor".into(),
+            min_ram_gb: 9.0,
         },
     ]
 }

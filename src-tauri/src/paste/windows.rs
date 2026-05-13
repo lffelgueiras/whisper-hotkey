@@ -33,11 +33,16 @@ fn key_event(vk: VIRTUAL_KEY, up: bool) -> INPUT {
 }
 
 impl Paster for WinPaster {
-    fn paste(&self, text: &str) -> Result<(), AppError> {
+    fn copy(&self, text: &str) -> Result<(), AppError> {
         let mut cb =
             arboard::Clipboard::new().map_err(|e| AppError::Paste(format!("clipboard: {e}")))?;
         cb.set_text(text.to_string())
             .map_err(|e| AppError::Paste(format!("set clipboard: {e}")))?;
+        Ok(())
+    }
+
+    fn paste(&self, text: &str) -> Result<(), AppError> {
+        self.copy(text)?;
         let inputs = [
             key_event(VK_CONTROL, false),
             key_event(VK_V, false),

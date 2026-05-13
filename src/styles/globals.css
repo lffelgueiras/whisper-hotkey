@@ -3,19 +3,164 @@
 @tailwind utilities;
 
 @layer base {
+  /* ============================================================
+     FROST  — light theme (default)
+     ============================================================ */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 4%;
-    --muted: 240 5% 96%;
-    --accent: 211 100% 50%;
-    --border: 240 6% 90%;
+    --background: 264 50% 96%;
+    --foreground: 258 24% 12%;
+    --muted: 264 30% 92%;
+    --muted-foreground: 258 14% 38%;
+    --card: 0 0% 100%;
+    --card-foreground: 258 24% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 258 24% 12%;
+    --primary: 258 90% 66%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 264 30% 92%;
+    --secondary-foreground: 258 24% 12%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 258 25% 88%;
+    --input: 258 25% 88%;
+    --ring: 258 90% 66%;
+    --radius: 0.875rem;
+
+    --glass-bg: 255 255 255;
+    --glass-bg-alpha: 0.55;
+    --glass-border: 91 33 182;
+    --glass-border-alpha: 0.1;
+    --glass-shadow: 91 33 182;
+    --glass-shadow-alpha: 0.15;
+
+    --bg-stop-1: rgba(196, 181, 253, 0.6);
+    --bg-stop-2: rgba(252, 211, 231, 0.55);
+    --bg-stop-3: rgba(186, 230, 253, 0.5);
+    --bg-base: #f4f1fa;
+
+    --grad-from: 258 90% 66%;
+    --grad-to: 322 81% 60%;
+
+    color-scheme: light;
   }
+
+  /* ============================================================
+     OBSIDIAN — dark theme
+     ============================================================ */
   .dark {
-    --background: 240 6% 10%;
-    --foreground: 0 0% 95%;
-    --muted: 240 4% 16%;
-    --accent: 211 100% 60%;
-    --border: 240 4% 20%;
+    --background: 220 20% 5%;
+    --foreground: 213 16% 93%;
+    --muted: 220 15% 12%;
+    --muted-foreground: 215 10% 60%;
+    --card: 217 30% 9%;
+    --card-foreground: 213 16% 93%;
+    --popover: 217 30% 9%;
+    --popover-foreground: 213 16% 93%;
+    --primary: 187 85% 53%;
+    --primary-foreground: 220 20% 5%;
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 213 16% 93%;
+    --accent: 187 85% 53%;
+    --accent-foreground: 220 20% 5%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 15% 16%;
+    --input: 220 15% 16%;
+    --ring: 187 85% 53%;
+
+    --glass-bg: 15 20 28;
+    --glass-bg-alpha: 0.55;
+    --glass-border: 255 255 255;
+    --glass-border-alpha: 0.06;
+    --glass-shadow: 0 0 0;
+    --glass-shadow-alpha: 0.5;
+
+    --bg-stop-1: rgba(34, 211, 238, 0.18);
+    --bg-stop-2: rgba(16, 185, 129, 0.12);
+    --bg-stop-3: rgba(167, 139, 250, 0.08);
+    --bg-base: #06080c;
+
+    --grad-from: 187 85% 53%;
+    --grad-to: 173 80% 40%;
+
+    color-scheme: dark;
   }
-  body { @apply bg-background text-foreground antialiased; }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply text-foreground antialiased;
+    background-color: var(--bg-base);
+    background-image:
+      radial-gradient(circle at 15% 25%, var(--bg-stop-1), transparent 45%),
+      radial-gradient(circle at 85% 75%, var(--bg-stop-2), transparent 50%),
+      radial-gradient(circle at 50% 10%, var(--bg-stop-3), transparent 50%);
+    background-attachment: fixed;
+    font-family:
+      "Inter",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  .dark body {
+    background-image:
+      radial-gradient(circle at 100% 0%, var(--bg-stop-1), transparent 50%),
+      radial-gradient(circle at 0% 100%, var(--bg-stop-2), transparent 55%),
+      radial-gradient(circle at 50% 50%, var(--bg-stop-3), transparent 60%);
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: rgb(var(--glass-bg) / var(--glass-bg-alpha));
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgb(var(--glass-border) / var(--glass-border-alpha));
+    box-shadow:
+      0 20px 60px -20px rgb(var(--glass-shadow) / var(--glass-shadow-alpha)),
+      0 0 0 1px rgb(var(--glass-border) / var(--glass-border-alpha)) inset;
+    border-radius: var(--radius);
+  }
+
+  .glass-subtle {
+    background-color: rgb(var(--glass-bg) / 0.35);
+    border: 1px solid rgb(var(--glass-border) / var(--glass-border-alpha));
+    border-radius: calc(var(--radius) - 4px);
+  }
+
+  .grad-accent {
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--grad-from)),
+      hsl(var(--grad-to))
+    );
+    color: white;
+  }
+
+  .kbd {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 9px;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 7px;
+    background: hsl(var(--muted));
+    border: 1px solid hsl(var(--border));
+    box-shadow: 0 1px 2px rgb(var(--glass-shadow) / 0.15);
+    color: hsl(var(--foreground));
+  }
 }

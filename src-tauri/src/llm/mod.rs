@@ -5,6 +5,9 @@ use crate::error::AppError;
 #[async_trait::async_trait]
 pub trait PostProcessor: Send + Sync {
     async fn refine(&self, text: &str) -> Result<String, AppError>;
+    async fn warmup(&self) -> Result<(), AppError> {
+        Ok(())
+    }
 }
 
 #[cfg(test)]
