@@ -2798,7 +2798,7 @@ git commit -m "feat(m3): general settings tab — hotkey, autopaste, overlay pos
 **Files:**
 - Modify: `src-tauri/src/commands.rs`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Hold the HotkeyService in state**
+- [x] **Step 1: Hold the HotkeyService in state**
 
 ```rust
 pub struct HotkeyState(pub Arc<PMutex<crate::hotkey::HotkeyService>>);
@@ -2806,7 +2806,7 @@ pub struct HotkeyState(pub Arc<PMutex<crate::hotkey::HotkeyService>>);
 
 In `main.rs`, after creating `HotkeyService`, `manage(HotkeyState(Arc::new(PMutex::new(hk))))`.
 
-- [ ] **Step 2: Re-register hotkey on update_config**
+- [x] **Step 2: Re-register hotkey on update_config**
 
 In `commands::update_config`, after the config is saved, compare old vs new and call `hotkey_service.register(&new.hotkey)?` if changed. Pass `HotkeyState` as another `State<'_, HotkeyState>` argument.
 
@@ -2827,11 +2827,11 @@ pub fn update_config(
 }
 ```
 
-- [ ] **Step 3: Smoke**
+- [x] **Step 3: Smoke**
 
 Set hotkey to `F12` in Settings, press F12, recording should start.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add -A
@@ -2846,7 +2846,7 @@ git commit -m "feat(m3): hotkey change applies live without restart"
 - Create: `src/windows/settings/ModelTab.tsx`, `src/components/ModelCard.tsx`
 - Modify: `src-tauri/src/commands.rs`, `src-tauri/src/main.rs`
 
-- [ ] **Step 1: Backend commands**
+- [x] **Step 1: Backend commands**
 
 Add to `src-tauri/src/commands.rs`:
 ```rust
@@ -2889,7 +2889,7 @@ pub fn is_model_present(id: String) -> bool {
 
 Register all in the `invoke_handler!` macro in `main.rs`.
 
-- [ ] **Step 2: Frontend ModelCard**
+- [x] **Step 2: Frontend ModelCard**
 
 Create `src/components/ModelCard.tsx`:
 ```tsx
@@ -2959,7 +2959,7 @@ export function ModelCard({ id, displayName, sizeBytes, isSelected, onSelect }: 
 }
 ```
 
-- [ ] **Step 3: Model tab**
+- [x] **Step 3: Model tab**
 
 Create `src/windows/settings/ModelTab.tsx`:
 ```tsx
@@ -2996,7 +2996,7 @@ export function ModelTab() {
 }
 ```
 
-- [ ] **Step 4: Reload ASR on model change**
+- [x] **Step 4: Reload ASR on model change**
 
 In Rust, add a watcher: when `asr_model` changes in `update_config`, set `app.asr.lock().await = None` so next transcription reloads.
 
@@ -3007,11 +3007,11 @@ This requires lifting `App` into Tauri state. Refactor (add as commented step):
 
 In `update_config`, accept `app: State<Arc<App>>` and call `app.reset_asr()` on change.
 
-- [ ] **Step 5: Smoke**
+- [x] **Step 5: Smoke**
 
 Open Settings → Model tab. See 3 cards. Download `whisper-base`. Switch to `whisper-tiny` after downloading it. Press hotkey — confirm tiny model is loaded (look at debug log).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add -A
@@ -3026,7 +3026,7 @@ git commit -m "feat(m3): model tab — download progress, select active asr mode
 - Modify: `src-tauri/Cargo.toml`, add `src-tauri/build.rs` step
 - Create: `src/ipc/generated/.gitkeep`
 
-- [ ] **Step 1: Verify ts-rs exports**
+- [x] **Step 1: Verify ts-rs exports**
 
 Each `#[derive(ts_rs::TS)]` already specifies `#[ts(export, export_to = "../src/ipc/generated/")]`. Running `cargo test` is what triggers ts-rs to emit the files.
 
@@ -3050,11 +3050,11 @@ ls src/ipc/generated/
 
 Expected: `Config.ts`, `ModelInfo.ts`, `RecordingState.ts`, `ErrorKind.ts`, `AppErrorDto.ts`, etc.
 
-- [ ] **Step 2: Add `.gitkeep` placeholder and ignore generated TS in lint**
+- [x] **Step 2: Add `.gitkeep` placeholder and ignore generated TS in lint**
 
 Create `src/ipc/generated/.gitkeep`. In `eslintrc`/Prettier config, ignore `src/ipc/generated/**`.
 
-- [ ] **Step 3: Commit generated types**
+- [x] **Step 3: Commit generated types**
 
 ```bash
 git add -A
@@ -3065,7 +3065,7 @@ git commit -m "chore(m3): generate ts types from rust via ts-rs"
 
 ### Task M3.8: Update README.dev.md and lock M3
 
-- [ ] **Step 1: Document the type generation step**
+- [x] **Step 1: Document the type generation step**
 
 Append to `README.dev.md`:
 ```markdown
@@ -3078,7 +3078,7 @@ pnpm gen-types
 Commit the resulting files in `src/ipc/generated/`.
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add README.dev.md
@@ -4541,10 +4541,10 @@ Which approach?
 - [x] **M3.2** Tauri commands for config get/update
 - [x] **M3.3** Settings window — shell
 - [x] **M3.4** General tab
-- [ ] **M3.5** React to hotkey config changes at runtime
-- [ ] **M3.6** Model tab with download progress
-- [ ] **M3.7** Wire up `ts-rs` generation
-- [ ] **M3.8** Update `README.dev.md` and lock M3
+- [x] **M3.5** React to hotkey config changes at runtime
+- [x] **M3.6** Model tab with download progress
+- [x] **M3.7** Wire up `ts-rs` generation
+- [x] **M3.8** Update `README.dev.md` and lock M3
 
 ## M4 — History
 
