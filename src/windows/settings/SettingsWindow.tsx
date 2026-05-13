@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GeneralTab } from "./GeneralTab";
 import { ModelTab } from "./ModelTab";
+import { VocabularyTab } from "./VocabularyTab";
 
 export function SettingsWindow() {
   return (
@@ -10,15 +11,16 @@ export function SettingsWindow() {
         <TabsList>
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="model">Model</TabsTrigger>
-          <TabsTrigger value="vocabulary" disabled>
-            Vocabulary
-          </TabsTrigger>
+          <TabsTrigger value="vocabulary">Vocabulary</TabsTrigger>
         </TabsList>
         <TabsContent value="general">
           <GeneralTab />
         </TabsContent>
         <TabsContent value="model">
           <ModelTab />
+        </TabsContent>
+        <TabsContent value="vocabulary">
+          <VocabularyTab />
         </TabsContent>
       </Tabs>
     </div>
