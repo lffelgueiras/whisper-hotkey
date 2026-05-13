@@ -3230,7 +3230,7 @@ git commit -m "feat(m4): pipeline appends transcription to history"
 - Modify: `src-tauri/src/commands.rs`, `src-tauri/tauri.conf.json`, `src-tauri/src/main.rs`
 - Create: `history.html`, `src/history-main.tsx`, `src/windows/history/HistoryWindow.tsx`, `src/store/historyStore.ts`
 
-- [ ] **Step 1: Add commands**
+- [x] **Step 1: Add commands**
 
 ```rust
 #[tauri::command]
@@ -3261,7 +3261,7 @@ pub fn export_history(path: String) -> Result<(), AppErrorDto> {
 
 Register in `invoke_handler!`.
 
-- [ ] **Step 2: Window config**
+- [x] **Step 2: Window config**
 
 Add to `tauri.conf.json` `windows`:
 ```json
@@ -3282,7 +3282,7 @@ ReactDOM.createRoot(document.getElementById("history-root")!).render(<HistoryWin
 
 Edit `vite.config.ts` `build.rollupOptions.input` to add `history: path.resolve(__dirname, "history.html")`.
 
-- [ ] **Step 3: Store**
+- [x] **Step 3: Store**
 
 Create `src/store/historyStore.ts`:
 ```ts
@@ -3305,7 +3305,7 @@ export const useHistoryStore = create<State>((set, get) => ({
 }));
 ```
 
-- [ ] **Step 4: Window component**
+- [x] **Step 4: Window component**
 
 Create `src/windows/history/HistoryWindow.tsx`:
 ```tsx
@@ -3363,15 +3363,15 @@ export function HistoryWindow() {
 pnpm tauri add dialog
 ```
 
-- [ ] **Step 5: Tray entry**
+- [x] **Step 5: Tray entry**
 
 In `main.rs` tray menu, add `History…` item before Quit; on click, show the `history` window.
 
-- [ ] **Step 6: Smoke**
+- [x] **Step 6: Smoke**
 
 Transcribe 2-3 things. Open History from tray. Verify list, search, copy, delete, export.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -A
@@ -4550,7 +4550,7 @@ Which approach?
 
 - [x] **M4.1** History storage
 - [x] **M4.2** Append history during pipeline
-- [ ] **M4.3** History commands + window
+- [x] **M4.3** History commands + window
 
 ## M5 — Vocabulary + Replacements
 
