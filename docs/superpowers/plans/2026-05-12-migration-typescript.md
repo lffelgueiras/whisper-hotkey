@@ -4362,7 +4362,7 @@ git commit -m "ci(m9): release workflow signs macos and bundles windows installe
 **Files:**
 - Modify: `src-tauri/tauri.conf.json`
 
-- [ ] **Step 1: Configure NSIS**
+- [x] **Step 1: Configure NSIS**
 
 ```json
 "windows": {
@@ -4377,11 +4377,11 @@ git commit -m "ci(m9): release workflow signs macos and bundles windows installe
 
 (Ensure `LICENSE` file at repo root — copy from existing if present.)
 
-- [ ] **Step 2: Test locally on Windows or via CI**
+- [x] **Step 2: Test locally on Windows or via CI**
 
 Push tag `v0.9.0-rc1`, verify CI produces both `.dmg` and `.exe` installer.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add -A
@@ -4579,7 +4579,7 @@ Which approach?
 ## M9 — Distribution
 
 - [x] **M9.1** macOS signing + notarization
-- [ ] **M9.2** Windows installer (NSIS)
+- [x] **M9.2** Windows installer (NSIS)
 
 ## M10 — Retire Python
 
