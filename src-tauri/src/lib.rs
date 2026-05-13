@@ -1,11 +1,11 @@
-mod app_state;
-mod asr;
-mod audio;
-mod error;
-mod hotkey;
-mod logging;
-mod models;
-mod paste;
+pub mod app_state;
+pub mod asr;
+pub mod audio;
+pub mod error;
+pub mod hotkey;
+pub mod logging;
+pub mod models;
+pub mod paste;
 
 use app_state::{next, Intent, RecordingState};
 use asr::{whisper_cpp::WhisperCpp, Transcriber};
