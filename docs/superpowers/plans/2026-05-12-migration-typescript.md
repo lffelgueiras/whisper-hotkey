@@ -3394,13 +3394,13 @@ git commit -m "feat(m4): history window with search, copy, delete, export to mar
 - Create: `src-tauri/src/replacements.rs`
 - Modify: `src-tauri/src/lib.rs`, `src-tauri/Cargo.toml`
 
-- [ ] **Step 1: Add regex crate**
+- [x] **Step 1: Add regex crate**
 
 ```toml
 regex = "1"
 ```
 
-- [ ] **Step 2: Tests + impl**
+- [x] **Step 2: Tests + impl**
 
 Create `src-tauri/src/replacements.rs`:
 ```rust
@@ -3458,13 +3458,13 @@ mod tests {
 
 Add `pub mod replacements;` to `lib.rs`.
 
-- [ ] **Step 3: Test**
+- [x] **Step 3: Test**
 
 ```bash
 cd src-tauri && cargo test replacements::
 ```
 
-- [ ] **Step 4: Wire into pipeline**
+- [x] **Step 4: Wire into pipeline**
 
 In `main.rs`, after transcription text is obtained:
 ```rust
@@ -3474,7 +3474,7 @@ let text = whisper_hotkey::replacements::apply(&text, &cfg.replacements);
 
 Also pass `&cfg.vocabulary` to `WhisperCpp::transcribe`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4554,7 +4554,7 @@ Which approach?
 
 ## M5 — Vocabulary + Replacements
 
-- [ ] **M5.1** Replacements engine
+- [x] **M5.1** Replacements engine
 - [ ] **M5.2** Vocabulary tab UI
 
 ## M6 — LLM post-processing
