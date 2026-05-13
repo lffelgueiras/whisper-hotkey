@@ -43,6 +43,7 @@ dirs = "5"
 chrono = "0.4"
 regex = "1"
 async-trait = "0.1"
+encoding_rs = "0.8"
 tauri-plugin-dialog = "2"
 
 [target.'cfg(target_os = "macos")'.dependencies]
