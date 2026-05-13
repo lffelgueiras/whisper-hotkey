@@ -1016,7 +1016,7 @@ git commit -m "feat(m1): vocabulary initial_prompt builder"
 - Modify: `src-tauri/Cargo.toml`, `src-tauri/src/asr/mod.rs`
 - Create: `src-tauri/src/asr/whisper_cpp.rs`
 
-- [ ] **Step 1: Add whisper-rs**
+- [x] **Step 1: Add whisper-rs**
 
 Append to `src-tauri/Cargo.toml`:
 ```toml
@@ -1029,7 +1029,7 @@ whisper-rs = { version = "0.13", default-features = false }
 
 (CUDA support deferred to a later milestone — Windows starts CPU-only as noted in spec §14.)
 
-- [ ] **Step 2: Define the trait**
+- [x] **Step 2: Define the trait**
 
 Replace `src-tauri/src/asr/mod.rs`:
 ```rust
@@ -1043,7 +1043,7 @@ pub trait Transcriber: Send + Sync {
 }
 ```
 
-- [ ] **Step 3: Implement WhisperCpp**
+- [x] **Step 3: Implement WhisperCpp**
 
 Create `src-tauri/src/asr/whisper_cpp.rs`:
 ```rust
@@ -1101,7 +1101,7 @@ impl Transcriber for WhisperCpp {
 }
 ```
 
-- [ ] **Step 4: Verify it compiles**
+- [x] **Step 4: Verify it compiles**
 
 ```bash
 cd src-tauri && cargo check
@@ -1109,7 +1109,7 @@ cd src-tauri && cargo check
 
 Expected: clean compile (no tests yet — model integration test comes in M1.10).
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add -A
@@ -4518,7 +4518,7 @@ Which approach?
 - [x] **M1.1** Define `AppError` and `ErrorKind`
 - [x] **M1.2** Audio capture module — start/stop/get-samples
 - [x] **M1.3** Vocabulary builder
-- [ ] **M1.4** `Transcriber` trait + whisper.cpp implementation
+- [x] **M1.4** `Transcriber` trait + whisper.cpp implementation
 - [ ] **M1.5** Paste module — macOS
 - [ ] **M1.6** Paste module — Windows
 - [ ] **M1.7** State machine actor
